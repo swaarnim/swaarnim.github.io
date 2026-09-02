@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raj's Routine — Grade XII 'D'</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0e2419;
+    --bg-mid:#153327;
+    --panel:#123024;
+    --chalk:#f6f1e4;
+    --chalk-dim:#cddccf;
+    --ink:#182a20;
+    --ink-soft:#4b5c52;
+    --rule: rgba(246,241,228,.14);
+
+    --eng:#e4577b;
+    --nep:#c1443c;
+    --math:#6c5ce7;
+    --phy:#2f80ed;
+    --chem:#e8912d;
+    --bot:#3fae6a;
+    --zoo:#17a398;
+    --bio:#1fa885;
+    --brk:#8b958e;
+    --lunch:#f0b429;
+    --study:#7c8db5;
+    --holiday:#c97b84;
+    --online:#4fb3bf;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(1100px 600px at 12% -10%, rgba(255,255,255,.05), transparent 60%),
+      linear-gradient(180deg,var(--bg-deep), var(--bg-mid) 55%, var(--bg-deep));
+    background-attachment:fixed;
+    color:var(--chalk);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding:clamp(18px,4vw,54px) 16px 90px;
+  }
+
+  .page{max-width:840px;margin:0 auto;}
+
+  /* ---------- HEADER ---------- */
+  .kicker{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--chalk-dim);
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .kicker .yr{
+    font-family:'IBM Plex Mono',monospace;
+    background:rgba(246,241,228,.08);
+    border:1px solid var(--rule);
+    padding:2px 7px;border-radius:20px;
+    font-size:11px;letter-spacing:.04em;
+  }
+
+  h1.greet{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(32px,6.4vw,50px);
+    line-height:1.04;
+    margin:10px 0 6px;
+    letter-spacing:-.01em;
+  }
+  h1.greet .accentword{
+    font-style:italic;
+    font-weight:500;
+    color:#ffd9a8;
+  }
+
+  .subline{
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;
+    color:var(--chalk-dim);
+    font-size:15px;
+    margin-bottom:18px;
+  }
+  .subline .clock{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--chalk);
+    background:rgba(246,241,228,.08);
+    border:1px solid var(--rule);
+    padding:3px 10px;border-radius:8px;
+    font-size:13.5px;letter-spacing:.03em;
+  }
+
+  /* ---------- DAY PICKER (custom dropdown) ---------- */
+  .viewing-row{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .viewing-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--chalk-dim);
+  }
+
+  .day-select{position:relative;display:inline-block;}
+  .day-select__btn{
+    display:flex;align-items:center;gap:9px;
+    background:rgba(246,241,228,.07);
+    border:1px solid var(--rule);
+    color:var(--chalk);
+    padding:9px 14px 9px 12px;
+    border-radius:13px;
+    cursor:pointer;
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:16px;
+    transition:background .2s ease, border-color .2s ease, transform .15s ease;
+  }
+  .day-select__btn:hover{background:rgba(246,241,228,.12);}
+  .day-select__btn:focus-visible{outline:2px solid var(--chalk);outline-offset:2px;}
+  .day-select__btn.open{border-color:var(--dsaccent, var(--chalk));transform:translateY(-1px);}
+  .dsb-dot{width:10px;height:10px;border-radius:50%;background:var(--dsaccent,var(--chalk));flex:0 0 auto;}
+  .dsb-tag{
+    font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:10.5px;
+    letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink);
+    background:var(--dsaccent,var(--chalk));
+    padding:2px 7px;border-radius:99px;
+  }
+  .day-select__btn .chev{width:13px;height:13px;stroke:var(--chalk-dim);stroke-width:2.4;transition:transform .2s ease;}
+  .day-select__btn.open .chev{transform:rotate(180deg);}
+
+  .day-select__menu{
+    position:absolute;top:calc(100% + 10px);left:0;
+    width:272px;max-width:80vw;
+    background:var(--chalk);
+    border-radius:16px;
+    box-shadow:0 22px 50px -14px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.25);
+    padding:8px;
+    list-style:none;margin:0;
+    z-index:40;
+    opacity:0;transform:translateY(-6px) scale(.98);
+    pointer-events:none;
+    transition:opacity .16s ease, transform .16s ease;
+  }
+  .day-select__menu.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+
+  .day-opt{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 10px;border-radius:11px;
+    cursor:pointer;color:var(--ink);
+    border-bottom:1px dashed rgba(24,42,32,.13);
+  }
+  .day-opt:last-child{border-bottom:none;}
+  .day-opt:hover, .day-opt.focused{background:color-mix(in srgb, var(--optaccent) 16%, white 84%);}
+  .day-opt.selected{background:color-mix(in srgb, var(--optaccent) 22%, white 78%);}
+  .do-dot{width:11px;height:11px;border-radius:50%;background:var(--optaccent);flex:0 0 auto;box-shadow:0 0 0 3px color-mix(in srgb, var(--optaccent) 20%, transparent);}
+  .do-main{flex:1 1 auto;}
+  .do-name{font-family:'Fraunces',serif;font-weight:600;font-size:14.5px;line-height:1.2;}
+  .do-note{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);letter-spacing:.03em;}
+  .do-check{width:16px;height:16px;stroke:var(--ink);stroke-width:2.6;opacity:0;flex:0 0 auto;}
+  .day-opt.selected .do-check{opacity:1;}
+  .do-today{
+    font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.07em;text-transform:uppercase;
+    background:var(--ink);color:var(--chalk);
+    padding:2px 6px;border-radius:99px;
+  }
+
+  .viewing-note{
+    font-size:13px;color:var(--chalk-dim);margin:10px 0 0;
+    display:none;
+  }
+  .viewing-note.show{display:block;}
+
+  /* ---------- GLANCE STRIP ---------- */
+  .glance{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
+    gap:10px;
+    margin:22px 0 6px;
+  }
+  .glance .stat{
+    background:var(--panel);
+    border:1px solid var(--rule);
+    border-radius:14px;
+    padding:13px 14px;
+  }
+  .glance .stat .lbl{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;
+    color:var(--chalk-dim);
+    margin-bottom:5px;
+  }
+  .glance .stat .val{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:19px;
+    color:var(--chalk);
+  }
+  .glance .stat .val small{font-family:'Inter';font-weight:500;font-size:12px;color:var(--chalk-dim);}
+
+  /* ---------- STATUS BANNER ---------- */
+  .banner{
+    margin:22px 0 8px;
+    padding:14px 16px;
+    border-radius:14px;
+    font-size:14.5px;
+    border:1px dashed var(--rule);
+    background:rgba(246,241,228,.05);
+    color:var(--chalk-dim);
+    display:none;
+  }
+  .banner.show{display:block;}
+  .banner strong{color:var(--chalk);}
+  .banner.info{border-style:solid;background:rgba(79,179,191,.08);border-color:rgba(79,179,191,.3);}
+
+  /* ---------- PROGRESS DOTS ---------- */
+  .progress-track{
+    display:flex;align-items:center;
+    margin:30px 2px 18px;
+    position:relative;
+  }
+  .progress-track::before{
+    content:"";position:absolute;left:8px;right:8px;top:50%;
+    height:0;border-top:2px dashed var(--rule);
+    transform:translateY(-50%);
+    z-index:0;
+  }
+  .p-dot{
+    position:relative;z-index:1;
+    width:14px;height:14px;border-radius:50%;
+    background:var(--bg-mid);
+    border:2px solid var(--rule);
+    margin-right:auto;
+    flex:0 0 auto;
+    transition:transform .25s ease;
+  }
+  .p-dot.done{background:var(--dotcolor,var(--chalk-dim));border-color:var(--dotcolor,var(--chalk-dim));opacity:.55;}
+  .p-dot.now{
+    background:var(--dotcolor,var(--chalk));
+    border-color:var(--dotcolor,var(--chalk));
+    transform:scale(1.5);
+    box-shadow:0 0 0 5px color-mix(in srgb, var(--dotcolor,var(--chalk)) 25%, transparent);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 4px color-mix(in srgb, var(--dotcolor,var(--chalk)) 22%, transparent);}
+    50%{box-shadow:0 0 0 8px color-mix(in srgb, var(--dotcolor,var(--chalk)) 8%, transparent);}
+  }
+
+  /* ---------- TICKETS ---------- */
+  .tickets{display:flex;flex-direction:column;gap:14px;}
+
+  .ticket{
+    position:relative;
+    display:grid;
+    grid-template-columns:104px 22px 1fr;
+    background:var(--panel);
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid var(--rule);
+    opacity:.62;
+    filter:grayscale(.15);
+    transition:opacity .3s ease, filter .3s ease, transform .3s ease;
+  }
+  .ticket.is-now{
+    opacity:1;filter:none;
+    box-shadow:0 10px 28px -10px color-mix(in srgb, var(--accent) 55%, black 10%);
+    transform:translateY(-1px);
+  }
+  .ticket.is-next{opacity:.92;filter:none;}
+  .ticket.is-done{opacity:.4;}
+  .ticket.is-plain{opacity:1;filter:none;}
+
+  .ticket .stub{
+    background:var(--accent);
+    color:var(--ink);
+    padding:14px 10px;
+    display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .ticket .stub .start{font-size:16px;font-weight:600;line-height:1.15;}
+  .ticket .stub .end{font-size:11.5px;opacity:.75;margin-top:1px;}
+  .ticket .stub .plabel{
+    margin-top:8px;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;
+    opacity:.75;
+  }
+
+  .perf{
+    position:relative;
+    background:transparent;
+    border-left:2px dashed rgba(246,241,228,.28);
+    border-right:2px dashed rgba(246,241,228,.28);
+  }
+  .perf::before,.perf::after{
+    content:"";position:absolute;left:50%;transform:translateX(-50%);
+    width:16px;height:16px;border-radius:50%;
+    background:var(--bg-mid);
+  }
+  .perf::before{top:-8px;}
+  .perf::after{bottom:-8px;}
+
+  .ticket .body{
+    padding:13px 16px 13px 14px;
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    background:var(--chalk);
+    color:var(--ink);
+  }
+  .badge{
+    flex:0 0 auto;
+    width:42px;height:42px;border-radius:11px;
+    display:flex;align-items:center;justify-content:center;
+    background:color-mix(in srgb, var(--accent) 16%, white 84%);
+    border:1.5px solid color-mix(in srgb, var(--accent) 55%, white 45%);
+    color:color-mix(in srgb, var(--accent) 78%, black 22%);
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;font-size:11.5px;letter-spacing:.02em;
+  }
+  .badge svg{width:19px;height:19px;stroke:currentColor;}
+
+  .info{flex:1 1 120px;min-width:0;}
+  .info h3{
+    font-family:'Fraunces',serif;font-weight:600;
+    font-size:17px;margin:0 0 2px;color:var(--ink);
+    letter-spacing:-.005em;
+  }
+  .info p{
+    margin:0;font-size:11.5px;color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;
+    text-transform:uppercase;letter-spacing:.06em;
+  }
+  .info .lab-tag{
+    display:inline-block;margin-top:5px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+    background:color-mix(in srgb, var(--accent) 18%, white 82%);
+    color:color-mix(in srgb, var(--accent) 70%, black 30%);
+    border:1px solid color-mix(in srgb, var(--accent) 45%, white 55%);
+    padding:2px 7px;border-radius:6px;
+  }
+
+  /* ---- dedicated teacher box ---- */
+  .teacherbox{
+    flex:0 0 auto;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    min-width:66px;
+    padding:6px 12px 7px;
+    border-radius:11px;
+    background:color-mix(in srgb, var(--accent) 9%, white 91%);
+    border:1.5px solid color-mix(in srgb, var(--accent) 45%, white 55%);
+  }
+  .teacherbox .tlabel{
+    font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--ink-soft);margin-bottom:2px;
+  }
+  .teacherbox .tname{
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:18px;
+    color:color-mix(in srgb, var(--accent) 78%, black 22%);letter-spacing:.02em;
+    line-height:1.1;
+    cursor:pointer;border-radius:6px;padding:1px 4px;margin:-1px -4px;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .teacherbox .tname:hover{background:color-mix(in srgb, var(--accent) 24%, white 76%);transform:translateY(-1px);}
+  .teacherbox .tname.is-active{background:color-mix(in srgb, var(--accent) 32%, white 68%);box-shadow:0 0 0 2px color-mix(in srgb, var(--accent) 55%, transparent);}
+  .teacherbox .tchips{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
+  .teacherbox .tchip{
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px;
+    cursor:pointer;transition:background .15s ease, transform .15s ease;
+    color:color-mix(in srgb, var(--accent) 78%, black 22%);
+    background:color-mix(in srgb, var(--accent) 14%, white 86%);
+    border:1px solid color-mix(in srgb, var(--accent) 40%, white 60%);
+    padding:1px 6px;border-radius:6px;
+  }
+  .teacherbox .tchip:hover{transform:translateY(-1px);background:color-mix(in srgb, var(--accent) 26%, white 74%);}
+  .teacherbox .tchip.is-active{background:color-mix(in srgb, var(--accent) 34%, white 66%);box-shadow:0 0 0 2px color-mix(in srgb, var(--accent) 55%, transparent);}
+
+  .status{flex:0 0 auto;text-align:right;margin-left:auto;}
+  .status .pill{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+    padding:4px 9px;border-radius:99px;
+    display:inline-flex;align-items:center;gap:5px;
+  }
+  .pill.now{background:#e8483a;color:#fff8f2;}
+  .pill.now .dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1.1s ease-in-out infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+  .pill.next{background:color-mix(in srgb, var(--accent) 20%, white 80%);color:color-mix(in srgb, var(--accent) 75%, black 25%);}
+  .status .countdown{
+    display:block;margin-top:5px;font-size:11px;color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;
+  }
+
+  .ticket.compact .body{padding:9px 16px 9px 14px;}
+  .ticket.compact .badge{width:34px;height:34px;border-radius:9px;}
+  .ticket.compact .info h3{font-size:14px;}
+
+  /* ---------- HERO (holiday / no more school) ---------- */
+  .hero-card{
+    margin-top:26px;
+    padding:34px 26px;
+    border-radius:20px;
+    text-align:center;
+    background:var(--panel);
+    border:1px solid var(--rule);
+  }
+  .hero-card .ring{
+    width:64px;height:64px;margin:0 auto 16px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:color-mix(in srgb, var(--accent) 20%, transparent);
+    border:2px solid var(--accent);
+  }
+  .hero-card .ring svg{width:28px;height:28px;stroke:var(--accent);}
+  .hero-card h2{
+    font-family:'Fraunces',serif;font-weight:600;font-size:24px;margin:0 0 8px;
+  }
+  .hero-card p{color:var(--chalk-dim);font-size:14.5px;max-width:44ch;margin:0 auto;line-height:1.55;}
+
+  /* ---------- LEGEND ---------- */
+  .legend{
+    margin-top:34px;
+    display:flex;flex-wrap:wrap;gap:8px 14px;
+    padding:16px 16px;
+    border-radius:14px;
+    border:1px solid var(--rule);
+    background:rgba(246,241,228,.04);
+  }
+  .legend .item{
+    display:flex;align-items:center;gap:7px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;color:var(--chalk-dim);
+  }
+  .legend .sw{width:10px;height:10px;border-radius:3px;}
+
+  /* ---------- FULL WEEK PANEL ---------- */
+  .week-panel{margin-top:52px;}
+  .week-panel__head{margin-bottom:16px;}
+  .week-panel__head h2{
+    font-family:'Fraunces',serif;font-weight:600;font-size:24px;margin:0 0 4px;
+  }
+  .week-panel__head p{margin:0;color:var(--chalk-dim);font-size:13.5px;}
+
+  .week-scroll{
+    border-radius:20px;
+    border:1px solid var(--rule);
+    background:var(--panel);
+    padding:14px 8px;
+  }
+  .week-grid{
+    display:grid;
+    grid-template-columns:52px 1fr 1fr 0.42fr 1fr 1fr 1fr 1fr 1fr 0.42fr 1fr 1fr;
+    gap:3px;
+    width:100%;
+  }
+  .wg-corner{
+    grid-column:1;grid-row:1;
+  }
+  .wg-head{
+    padding:8px 3px;border-radius:11px;text-align:center;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:color-mix(in srgb, var(--hcol) 16%, transparent);
+    border:1.5px solid color-mix(in srgb, var(--hcol) 45%, transparent);
+    transition:transform .15s ease, background .15s ease;
+  }
+  .wg-head:hover{transform:translateX(2px);background:color-mix(in srgb, var(--hcol) 26%, transparent);}
+  .wg-head.is-today{box-shadow:0 0 0 2px var(--hcol);}
+  .wg-head .wgh-day{
+    font-family:'Fraunces',serif;font-weight:600;font-size:clamp(10.5px,2.6vw,13.5px);color:var(--chalk);
+  }
+  .wg-head .wgh-tag{
+    font-family:'IBM Plex Mono',monospace;font-size:clamp(6.5px,1.6vw,8.5px);letter-spacing:.06em;text-transform:uppercase;
+    color:var(--chalk-dim);margin-top:1px;
+  }
+  .wg-head.is-selected{outline:2px dashed var(--chalk);outline-offset:2px;}
+
+  .wg-timelabel{
+    display:flex;align-items:center;justify-content:center;
+    padding:4px 2px;text-align:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:clamp(6.5px,1.6vw,9px);color:var(--chalk-dim);
+    line-height:1.2;
+  }
+  .wg-timelabel.is-break{color:var(--chalk-dim);opacity:.6;font-style:italic;font-size:clamp(6px,1.4vw,8px);}
+
+  .wg-row-today{
+    background:rgba(246,241,228,.035);
+    border-radius:10px;
+  }
+
+  .wg-cell{
+    border-radius:10px;
+    padding:5px 3px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:2px;
+    min-height:44px;
+    background:color-mix(in srgb, var(--ccol) 14%, white 86%);
+    border:1px solid color-mix(in srgb, var(--ccol) 40%, white 60%);
+    color:var(--ink);
+    text-align:center;
+    overflow:hidden;
+  }
+  .wg-cell .wc-code{
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:clamp(8px,2vw,11.5px);
+    color:color-mix(in srgb, var(--ccol) 78%, black 22%);
+    white-space:nowrap;
+  }
+  .wg-cell .wc-teacher{
+    font-family:'IBM Plex Mono',monospace;font-size:clamp(6.5px,1.6vw,9px);color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .wg-cell.wg-break{background:rgba(139,149,142,.14);border:1px dashed rgba(139,149,142,.4);min-height:22px;}
+  .wg-cell.wg-lunch .wc-code, .wg-cell.wg-study .wc-code{font-size:clamp(7px,1.8vw,10px);}
+  .wg-cell.wg-filler{background:rgba(246,241,228,.04);border:1px dashed var(--rule);color:var(--chalk-dim);font-family:'IBM Plex Mono',monospace;font-size:clamp(8px,1.8vw,10.5px);}
+  .wg-cell.wg-holiday{background:color-mix(in srgb, var(--holiday) 16%, transparent);border:1px dashed color-mix(in srgb, var(--holiday) 55%, transparent);color:var(--chalk-dim);font-family:'Fraunces',serif;font-weight:600;font-size:clamp(10px,2.4vw,13px);}
+
+  .wg-cell[data-teachers]{cursor:pointer;}
+  .wg-cell .wc-teacher{cursor:pointer;transition:text-decoration .15s ease;}
+  .wg-cell .wc-teacher:hover{text-decoration:underline;}
+
+  /* ---------- teacher spotlight filter state ---------- */
+  .week-grid.filtering .wg-cell{transition:opacity .25s ease, transform .25s ease, filter .25s ease, box-shadow .25s ease;}
+  .week-grid.filtering .wg-cell.wg-dim{opacity:.22;filter:grayscale(65%);transform:scale(.97);}
+  .week-grid.filtering .wg-head{transition:opacity .25s ease, filter .25s ease;}
+  .week-grid.filtering .wg-head.wg-dim{opacity:.35;filter:grayscale(70%);}
+  .wg-cell.wg-match{
+    box-shadow:0 0 0 2.5px color-mix(in srgb, var(--ccol) 85%, black 15%), 0 6px 16px -6px color-mix(in srgb, var(--ccol) 70%, transparent);
+    transform:scale(1.045);
+    z-index:2;
+  }
+  .wg-cell.wg-match .wc-code, .wg-cell.wg-match .wc-teacher{color:color-mix(in srgb, var(--ccol) 82%, black 18%);font-weight:700;}
+
+  /* ---------- teacher spotlight card ---------- */
+  .tsp-card{
+    display:none;
+    background:var(--panel);
+    border:1px solid var(--rule);
+    border-radius:16px;
+    padding:16px 18px;
+    margin:14px 0 16px;
+    animation:tspIn .22s ease;
+  }
+  .tsp-card.show{display:block;}
+  @keyframes tspIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+  .tsp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .tsp-title{
+    font-family:'Fraunces',serif;font-weight:600;font-size:17px;color:var(--chalk);
+    display:flex;align-items:center;gap:8px;
+  }
+  .tsp-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
+  .tsp-forsubj{color:var(--chalk-dim);font-weight:500;font-size:14px;}
+  .tsp-close{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;
+    background:rgba(246,241,228,.08);border:1px solid var(--rule);color:var(--chalk-dim);
+    padding:5px 10px;border-radius:9px;cursor:pointer;transition:background .15s ease, color .15s ease;
+  }
+  .tsp-close:hover{background:rgba(246,241,228,.16);color:var(--chalk);}
+  .tsp-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--chalk-dim);margin:6px 0 12px;letter-spacing:.03em;}
+  .tsp-rows{display:flex;flex-direction:column;gap:6px;}
+  .tsp-row{
+    display:flex;align-items:center;gap:12px;
+    background:rgba(246,241,228,.05);border:1px solid var(--rule);
+    border-radius:10px;padding:7px 12px;
+    font-size:13.5px;color:var(--chalk);
+  }
+  .tsp-day{
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink);background:var(--dcol);padding:2px 8px;border-radius:99px;flex:0 0 auto;min-width:38px;text-align:center;
+  }
+  .tsp-time{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--chalk-dim);flex:0 0 auto;min-width:118px;}
+  .tsp-subj{font-family:'Inter',sans-serif;font-size:13.5px;color:var(--chalk);}
+  .tsp-subj em{color:var(--chalk-dim);font-style:italic;}
+
+  /* ---------- teacher directory ---------- */
+  .tdir{margin-top:18px;}
+  .tdir__head{margin-bottom:10px;}
+  .tdir__head h2{
+    font-family:'Fraunces',serif;font-weight:600;font-size:19px;margin:0 0 3px;color:var(--chalk);
+  }
+  .tdir__head p{margin:0;font-size:13px;color:var(--chalk-dim);}
+  .tdir__grid{
+    display:flex;flex-wrap:wrap;gap:8px;
+  }
+  .tdir-chip{
+    display:flex;align-items:center;gap:7px;
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;
+    background:var(--panel);border:1px solid var(--rule);color:var(--chalk);
+    padding:7px 12px;border-radius:99px;cursor:pointer;
+    transition:transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .tdir-chip:hover{transform:translateY(-1px);background:rgba(246,241,228,.1);}
+  .tdir-chip.is-active{background:color-mix(in srgb, var(--dccol) 30%, var(--panel) 70%);border-color:var(--dccol);}
+  .tdir-chip .tdc-dot{width:8px;height:8px;border-radius:50%;background:var(--dccol);flex:0 0 auto;}
+  .tdir-chip .tdc-count{color:var(--chalk-dim);font-weight:500;font-size:11px;}
+
+  /* ---------- COLLAPSIBLE PANELS ---------- */
+  .panel{
+    margin-top:30px;
+    border-radius:20px;
+    border:1px solid var(--rule);
+    background:var(--panel);
+    overflow:hidden;
+  }
+  .panel__head{
+    width:100%;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:18px 20px;
+    background:none;border:none;
+    cursor:pointer;text-align:left;color:inherit;
+    font-family:inherit;
+  }
+  .panel__title h2{
+    font-family:'Fraunces',serif;font-weight:600;font-size:20px;margin:0 0 3px;color:var(--chalk);
+  }
+  .panel__title p{margin:0;color:var(--chalk-dim);font-size:13px;}
+  .panel__chev{width:18px;height:18px;stroke:var(--chalk-dim);stroke-width:2.4;flex:0 0 auto;transition:transform .2s ease;}
+  .panel[data-open="true"] .panel__chev{transform:rotate(180deg);}
+  .panel__body{display:none;padding:0 20px 22px;}
+  .panel[data-open="true"] .panel__body{display:block;}
+  .panel--flush .panel__body{padding:0 14px 14px;}
+
+  /* ---------- COMPARE SECTIONS ---------- */
+  .cmp-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .cmp-daybtn{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
+    padding:7px 13px;border-radius:99px;cursor:pointer;
+    background:rgba(246,241,228,.06);border:1px solid var(--rule);color:var(--chalk-dim);
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .cmp-daybtn.is-active{background:var(--chalk);color:var(--ink);border-color:var(--chalk);}
+  .cmp-label{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--chalk-dim);margin:14px 0 8px;
+  }
+  .cmp-groups{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px;}
+  .cmp-groupchip{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
+    padding:6px 12px;border-radius:10px;cursor:pointer;
+    background:rgba(246,241,228,.06);border:1px solid var(--rule);color:var(--chalk-dim);
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .cmp-groupchip.is-active{background:color-mix(in srgb, var(--online) 30%, var(--panel) 70%);border-color:var(--online);color:var(--chalk);}
+  .cmp-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:16px 0 14px;}
+  .cmp-view-toggle{display:flex;gap:6px;}
+  .cmp-view-toggle button{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;
+    padding:6px 11px;border-radius:8px;cursor:pointer;
+    background:rgba(246,241,228,.06);border:1px solid var(--rule);color:var(--chalk-dim);
+  }
+  .cmp-view-toggle button.is-active{background:var(--chalk);color:var(--ink);border-color:var(--chalk);}
+  .cmp-clear{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;
+    padding:6px 11px;border-radius:8px;cursor:pointer;
+    background:rgba(232,72,58,.12);border:1px solid rgba(232,72,58,.4);color:#f2a79e;
+  }
+  .cmp-empty{color:var(--chalk-dim);font-size:13.5px;padding:6px 0 4px;}
+  .cmp-results{margin-top:10px;}
+
+  .cmp-table{width:100%;border-collapse:separate;border-spacing:4px;}
+  .cmp-table th{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--chalk-dim);font-weight:600;padding:6px 4px;text-align:left;white-space:nowrap;
+  }
+  .cmp-table td{vertical-align:top;padding:2px;}
+  .cmp-time{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--chalk-dim);white-space:nowrap;padding-right:8px !important;
+  }
+  .cmp-cell{
+    display:block;border-radius:9px;padding:6px 8px;min-height:34px;
+    background:color-mix(in srgb, var(--cc) 16%, white 84%);
+    border:1px solid color-mix(in srgb, var(--cc) 42%, white 58%);
+    color:var(--ink);font-size:11.5px;line-height:1.25;
+  }
+  .cmp-cell.cmp-muted{background:rgba(139,149,142,.14);border:1px dashed rgba(139,149,142,.4);color:var(--chalk-dim);text-align:center;}
+
+  .cmp-list-card{
+    background:rgba(246,241,228,.04);border:1px solid var(--rule);border-radius:14px;
+    padding:12px 14px;margin-bottom:12px;
+  }
+  .cmp-list-card h3{font-family:'Fraunces',serif;font-weight:600;font-size:15px;margin:0 0 8px;color:var(--chalk);}
+  .cmp-list-row{
+    display:flex;align-items:center;gap:10px;
+    padding:5px 0;border-bottom:1px dashed var(--rule);
+    font-size:13px;color:var(--chalk);
+  }
+  .cmp-list-row:last-child{border-bottom:none;}
+  .cmp-list-row .cmp-time{min-width:120px;}
+
+  .cmp-inline-banner{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+    background:color-mix(in srgb, var(--online) 14%, transparent);
+    border:1px solid color-mix(in srgb, var(--online) 45%, transparent);
+    border-radius:14px;padding:12px 16px;margin-bottom:16px;
+  }
+  .cmp-inline-banner .txt{font-size:13.5px;color:var(--chalk);}
+  .cmp-inline-banner .txt strong{color:#bdeff2;}
+  .cmp-inline-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .cmp-btn{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.03em;
+    padding:7px 12px;border-radius:9px;cursor:pointer;white-space:nowrap;
+    background:rgba(246,241,228,.1);border:1px solid var(--rule);color:var(--chalk);
+  }
+  .cmp-btn:hover{background:rgba(246,241,228,.18);}
+  .cmp-btn.primary{background:var(--online);border-color:var(--online);color:var(--ink);}
+
+  footer{
+    margin-top:34px;text-align:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;color:var(--chalk-dim);opacity:.7;
+    letter-spacing:.03em;
+  }
+
+  @media (max-width:520px){
+    .ticket{grid-template-columns:1fr;}
+    .perf{display:none;}
+    .ticket .stub{
+      flex-direction:row;align-items:baseline;gap:8px;
+      padding:10px 14px;border-bottom:2px dashed rgba(246,241,228,.28);
+    }
+    .ticket .stub .plabel{margin-top:0;margin-left:auto;}
+    .ticket .body{flex-wrap:wrap;}
+    .status{margin-left:0;text-align:left;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .p-dot.now, .pill.now .dot{animation:none;}
+    .ticket, .wg-head{transition:none;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="kicker">
+    <span>St. Xavier's College, Maitighar</span>
+    <span>&middot;</span>
+    <span>Grade XII 'D'</span>
+    <span class="yr">B.S. 2083</span>
+  </div>
+
+  <h1 class="greet" id="greet">Hello, <span class="accentword">Raj</span></h1>
+
+  <div class="subline">
+    <span id="dateLine">Loading date...</span>
+    <span class="clock" id="clock">--:--:--</span>
+  </div>
+
+  <div class="viewing-row">
+    <span class="viewing-label">Viewing schedule for</span>
+    <div class="day-select" id="daySelect">
+      <button class="day-select__btn" id="daySelectBtn" aria-haspopup="listbox" aria-expanded="false">
+        <span class="dsb-dot" id="dsbDot"></span>
+        <span id="dsbLabel">Wednesday</span>
+        <span class="dsb-tag" id="dsbTag" style="display:none;">Today</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <ul class="day-select__menu" id="daySelectMenu" role="listbox" tabindex="-1"></ul>
+    </div>
+  </div>
+  <p class="viewing-note" id="viewingNote"></p>
+
+  <div class="glance" id="glance"></div>
+
+  <div class="banner" id="banner"></div>
+
+  <section class="panel" id="todayPanel" data-open="true">
+    <button class="panel__head" onclick="togglePanel('todayPanel')">
+      <div class="panel__title">
+        <h2 id="todayPanelTitle">Today's Routine</h2>
+        <p id="todayPanelSub">Your Grade XII 'D' schedule</p>
+      </div>
+      <svg class="panel__chev" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="panel__body">
+      <div id="cmpInlineBanner"></div>
+      <div id="scheduleZone">
+        <div class="progress-track" id="progressTrack"></div>
+        <div class="tickets" id="tickets"></div>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </section>
+
+  <section class="panel panel--flush" id="weekPanel" data-open="false">
+    <button class="panel__head" onclick="togglePanel('weekPanel')">
+      <div class="panel__title">
+        <h2>Full Week at a Glance</h2>
+        <p>Every day, side by side. Click a day's header to jump to it above.</p>
+      </div>
+      <svg class="panel__chev" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="panel__body">
+      <div class="tsp-card" id="teacherSpotlight"></div>
+      <div class="week-scroll">
+        <div class="week-grid" id="weekGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="comparePanel" data-open="false">
+    <button class="panel__head" onclick="togglePanel('comparePanel')">
+      <div class="panel__title">
+        <h2>Compare Other Sections</h2>
+        <p>Look up any other group's routine on any day.</p>
+      </div>
+      <svg class="panel__chev" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="panel__body" id="comparePanelBody"></div>
+  </section>
+
+  <section class="panel" id="directoryPanel" data-open="false">
+    <button class="panel__head" onclick="togglePanel('directoryPanel')">
+      <div class="panel__title">
+        <h2>Teacher Directory</h2>
+        <p>Tap any teacher to spotlight every period they take this week.</p>
+      </div>
+      <svg class="panel__chev" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="panel__body">
+      <div class="tdir" id="teacherDirectory"></div>
+    </div>
+  </section>
+
+  <footer>Transcribed from the posted Class Schedule &middot; updates automatically each day</footer>
+</div>
+
+<script>
+/* ============ DATA: full week, straight from the notice board ============ */
+const WEEK = {
+  0: { label:"Sunday", note:"Online classes", periods:[
+    {s:"09:30",e:"10:15",type:"class",code:"Eng",subject:"English",teacher:"PL"},
+    {s:"10:15",e:"11:00",type:"class",code:"Zoo",subject:"Zoology",teacher:"AJ"},
+    {s:"11:00",e:"11:10",type:"break"},
+    {s:"11:10",e:"11:55",type:"class",code:"Math",subject:"Mathematics",teacher:"PK"},
+    {s:"11:55",e:"12:40",type:"study"},
+  ]},
+  1: { label:"Monday", periods:[
+    {s:"09:30",e:"10:15",type:"class",code:"Chem",subject:"Chemistry",teacher:"NP"},
+    {s:"10:15",e:"11:00",type:"class",code:"Nep",subject:"Nepali",teacher:"KP"},
+    {s:"11:00",e:"11:10",type:"break"},
+    {s:"11:10",e:"11:55",type:"class",code:"Math",subject:"Mathematics",teacher:"DP"},
+    {s:"11:55",e:"12:40",type:"lunch"},
+    {s:"12:40",e:"13:20",type:"class",code:"Phy",subject:"Physics",teacher:"AK"},
+    {s:"13:20",e:"14:50",type:"lab",code:"Chem",subject:"Chemistry Lab",teacher:"NR, SP, DA, NP"},
+    {s:"14:50",e:"15:00",type:"break"},
+    {s:"15:00",e:"15:45",type:"class",code:"Math",subject:"Mathematics",teacher:"PK"},
+    {s:"15:45",e:"16:30",type:"class",code:"Eng",subject:"English",teacher:"PL"},
+  ]},
+  2: { label:"Tuesday", periods:[
+    {s:"09:30",e:"10:15",type:"class",code:"Eng",subject:"English",teacher:"PL"},
+    {s:"10:15",e:"11:00",type:"class",code:"Chem",subject:"Chemistry",teacher:"DLK"},
+    {s:"11:00",e:"11:10",type:"break"},
+    {s:"11:10",e:"11:55",type:"class",code:"Chem",subject:"Chemistry",teacher:"NKS"},
+    {s:"11:55",e:"12:40",type:"lunch"},
+    {s:"12:40",e:"13:20",type:"class",code:"Bot",subject:"Botany",teacher:"SM"},
+    {s:"13:20",e:"14:50",type:"lab",code:"Phy",subject:"Physics Lab",teacher:"KGT, AK, HKS, UA"},
+    {s:"14:50",e:"15:00",type:"break"},
+    {s:"15:00",e:"15:45",type:"class",code:"Nep",subject:"Nepali",teacher:"KP"},
+    {s:"15:45",e:"16:30",type:"class",code:"Math",subject:"Mathematics",teacher:"AMS"},
+  ]},
+  3: { label:"Wednesday", periods:[
+    {s:"09:30",e:"10:15",type:"class",code:"Zoo",subject:"Zoology",teacher:"AJ"},
+    {s:"10:15",e:"11:00",type:"class",code:"Phy",subject:"Physics",teacher:"AK"},
+    {s:"11:00",e:"11:10",type:"break"},
+    {s:"11:10",e:"11:55",type:"class",code:"Bot",subject:"Botany",teacher:"BS"},
+    {s:"11:55",e:"12:40",type:"lunch"},
+    {s:"12:40",e:"13:20",type:"class",code:"Zoo",subject:"Zoology",teacher:"BP"},
+    {s:"13:20",e:"14:05",type:"class",code:"Chem",subject:"Chemistry",teacher:"DLK"},
+    {s:"14:05",e:"14:50",type:"class",code:"Eng",subject:"English",teacher:"PL"},
+    {s:"14:50",e:"15:00",type:"break"},
+    {s:"15:00",e:"15:45",type:"class",code:"Nep",subject:"Nepali",teacher:"DP"},
+    {s:"15:45",e:"16:30",type:"class",code:"Phy",subject:"Physics",teacher:"HKS"},
+  ]},
+  4: { label:"Thursday", periods:[
+    {s:"09:30",e:"10:15",type:"class",code:"Math",subject:"Mathematics",teacher:"PK"},
+    {s:"10:15",e:"11:00",type:"class",code:"Phy",subject:"Physics",teacher:"AK"},
+    {s:"11:00",e:"11:10",type:"break"},
+    {s:"11:10",e:"11:55",type:"class",code:"Chem",subject:"Chemistry",teacher:"NP"},
+    {s:"11:55",e:"12:40",type:"lunch"},
+    {s:"12:40",e:"13:20",type:"class",code:"Phy",subject:"Physics",teacher:"HKS"},
+    {s:"13:20",e:"14:05",type:"class",code:"Phy",subject:"Physics",teacher:"GJ"},
+    {s:"14:05",e:"14:50",type:"class",code:"Bot",subject:"Botany",teacher:"SM"},
+    {s:"14:50",e:"15:00",type:"break"},
+    {s:"15:00",e:"16:30",type:"lab",code:"Bio",subject:"Biology Lab",teacher:"NSD, SM, AJ, PT"},
+  ]},
+  5: { label:"Friday", periods:[
+    {s:"09:30",e:"10:15",type:"class",code:"Chem",subject:"Chemistry",teacher:"DLK"},
+    {s:"10:15",e:"11:00",type:"class",code:"Math",subject:"Mathematics",teacher:"DP"},
+    {s:"11:00",e:"11:10",type:"break"},
+    {s:"11:10",e:"11:55",type:"class",code:"Phy",subject:"Physics",teacher:"HKS"},
+    {s:"11:55",e:"12:40",type:"lunch"},
+    {s:"12:40",e:"13:20",type:"class",code:"Chem",subject:"Chemistry",teacher:"NP"},
+    {s:"13:20",e:"14:05",type:"class",code:"Math",subject:"Mathematics",teacher:"PK"},
+    {s:"14:05",e:"14:50",type:"class",code:"Nep",subject:"Nepali",teacher:"DP"},
+    {s:"14:50",e:"15:00",type:"break"},
+    {s:"15:00",e:"15:45",type:"class",code:"Zoo",subject:"Zoology",teacher:"GC"},
+    {s:"15:45",e:"16:30",type:"class",code:"Bot",subject:"Botany",teacher:"NSD"},
+  ]},
+  6: { label:"Saturday", holiday:true, periods:[] },
+};
+
+const DAYMETA = {
+  0:{short:"Sun", accent:"var(--online)"},
+  1:{short:"Mon", accent:"var(--chem)"},
+  2:{short:"Tue", accent:"var(--eng)"},
+  3:{short:"Wed", accent:"var(--zoo)"},
+  4:{short:"Thu", accent:"var(--math)"},
+  5:{short:"Fri", accent:"var(--chem)"},
+  6:{short:"Sat", accent:"var(--holiday)"},
+};
+
+const ROWTIMES = [
+  {s:"09:30",e:"10:15"},
+  {s:"10:15",e:"11:00"},
+  {s:"11:00",e:"11:10"},
+  {s:"11:10",e:"11:55"},
+  {s:"11:55",e:"12:40"},
+  {s:"12:40",e:"13:20"},
+  {s:"13:20",e:"14:05"},
+  {s:"14:05",e:"14:50"},
+  {s:"14:50",e:"15:00"},
+  {s:"15:00",e:"15:45"},
+  {s:"15:45",e:"16:30"},
+];
+
+const ACCENT = {
+  Eng:"var(--eng)", Nep:"var(--nep)", Math:"var(--math)", Phy:"var(--phy)",
+  Chem:"var(--chem)", Bot:"var(--bot)", Zoo:"var(--zoo)", Bio:"var(--bio)",
+};
+const FULLNAME = {
+  Eng:"English", Nep:"Nepali", Math:"Mathematics", Phy:"Physics",
+  Chem:"Chemistry", Bot:"Botany", Zoo:"Zoology", Bio:"Biology",
+};
+
+const ICON = {
+  break: `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="7" y1="5" x2="7" y2="19"/><line x1="17" y1="5" x2="17" y2="19"/></svg>`,
+  lunch: `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a3 3 0 0 0 6 0V3"/><path d="M9 10v11"/><path d="M17 3c-1.5 1-2 3-2 5s1 3 2 4v9"/></svg>`,
+  study: `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6a2 2 0 0 1 2-2h6v16H4a2 2 0 0 0-2 2z"/><path d="M22 6a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 1 2 2z"/></svg>`,
+  holiday: `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`,
+};
+const LABEL = { break:"Short Break", lunch:"Lunch Break", study:"Study Hour" };
+
+/* ============ helpers ============ */
+function pad(n){ return n.toString().padStart(2,"0"); }
+function toDate(base, hm){
+  const [h,m] = hm.split(":").map(Number);
+  const d = new Date(base);
+  d.setHours(h, m, 0, 0);
+  return d;
+}
+function fmt12(hm){
+  let [h,m] = hm.split(":").map(Number);
+  const suf = h >= 12 ? "PM" : "AM";
+  h = h % 12; if (h === 0) h = 12;
+  return `${h}:${pad(m)} ${suf}`;
+}
+function minsToText(mins){
+  if (mins < 1) return "less than a minute";
+  const h = Math.floor(mins/60), m = mins % 60;
+  if (h > 0) return `${h}h ${m}m`;
+  return `${m}m`;
+}
+function colRange(p){
+  const s = ROWTIMES.findIndex(r => r.s === p.s);
+  const e = ROWTIMES.findIndex(r => r.e === p.e);
+  return { col: s + 2, span: (e - s) + 1 };
+}
+function teacherKey(code, teacher){
+  return `${code}::${teacher.trim()}`;
+}
+
+/* ============ state ============ */
+const actualToday = new Date().getDay();
+let selectedDay = actualToday;
+let filterTeacher = null;
+
+/* ============ teacher index (built once from WEEK) — keyed by subject so same-initial teachers in different subjects never mix ============ */
+function buildTeacherIndex(){
+  const idx = {};
+  Object.keys(WEEK).forEach(k => {
+    const d = Number(k);
+    (WEEK[d].periods || []).forEach(p => {
+      if (!p.teacher) return;
+      p.teacher.split(",").map(t => t.trim()).forEach(t => {
+        const key = teacherKey(p.code, t);
+        if (!idx[key]) idx[key] = [];
+        idx[key].push({ day: d, ...p, initials: t });
+      });
+    });
+  });
+  return idx;
+}
+const TEACHER_INDEX = buildTeacherIndex();
+const TEACHER_KEYS = Object.keys(TEACHER_INDEX).sort((a,b) => TEACHER_INDEX[b].length - TEACHER_INDEX[a].length || a.localeCompare(b));
+
+/* ============ teacher spotlight / filter ============ */
+function toggleTeacherFilter(key){
+  filterTeacher = (filterTeacher === key) ? null : key;
+  applyTeacherFilter();
+  if (filterTeacher){
+    const panel = document.getElementById("weekPanel");
+    if (panel){
+      panel.setAttribute("data-open","true");
+      panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+}
+
+/* ============ collapsible panels ============ */
+function togglePanel(id){
+  const panel = document.getElementById(id);
+  if (!panel) return;
+  const isOpen = panel.getAttribute("data-open") === "true";
+  panel.setAttribute("data-open", isOpen ? "false" : "true");
+}
+function clearTeacherFilter(){
+  filterTeacher = null;
+  applyTeacherFilter();
+}
+function applyTeacherFilter(){
+  const grid = document.getElementById("weekGrid");
+  const spotlight = document.getElementById("teacherSpotlight");
+  if (!grid || !spotlight) return;
+
+  if (!filterTeacher){
+    grid.classList.remove("filtering");
+    grid.querySelectorAll(".wg-cell, .wg-head").forEach(c => c.classList.remove("wg-match","wg-dim"));
+    spotlight.classList.remove("show");
+    spotlight.innerHTML = "";
+    document.querySelectorAll(".tname.is-active, .tchip.is-active").forEach(el => el.classList.remove("is-active"));
+    document.querySelectorAll(".tdir-chip.is-active").forEach(el => el.classList.remove("is-active"));
+    return;
+  }
+
+  grid.classList.add("filtering");
+  const daysWithMatch = new Set();
+  grid.querySelectorAll(".wg-cell").forEach(c => {
+    const keys = (c.dataset.teacherkeys || "").split(",").map(s => s.trim()).filter(Boolean);
+    if (keys.includes(filterTeacher)){
+      c.classList.add("wg-match"); c.classList.remove("wg-dim");
+      const dayIdx = Number(c.style.gridRow) - 2;
+      daysWithMatch.add(dayIdx);
+    } else {
+      c.classList.add("wg-dim"); c.classList.remove("wg-match");
+    }
+  });
+  grid.querySelectorAll(".wg-head").forEach(h => {
+    const d = Number(h.getAttribute("onclick").match(/\d+/)[0]);
+    if (daysWithMatch.has(d)) h.classList.remove("wg-dim"); else h.classList.add("wg-dim");
+  });
+
+  // keep the ticket / chip that triggered this in sync visually
+  document.querySelectorAll(".tname, .tchip").forEach(el => {
+    el.classList.toggle("is-active", el.dataset.key === filterTeacher);
+  });
+  document.querySelectorAll(".tdir-chip").forEach(el => {
+    el.classList.toggle("is-active", el.dataset.teacher === filterTeacher);
+  });
+
+  const [subjCode, initials] = filterTeacher.split("::");
+  const subjName = FULLNAME[subjCode] || subjCode;
+  const sessions = (TEACHER_INDEX[filterTeacher] || []).slice().sort((a,b) => a.day - b.day || a.s.localeCompare(b.s));
+  const rows = sessions.map(s => {
+    const subj = s.subject || FULLNAME[s.code] || s.code;
+    return `
+      <div class="tsp-row">
+        <span class="tsp-day" style="--dcol:${DAYMETA[s.day].accent}">${DAYMETA[s.day].short}</span>
+        <span class="tsp-time">${fmt12(s.s)}&ndash;${fmt12(s.e)}</span>
+        <span class="tsp-subj">${subj}${s.type === "lab" ? " <em>&middot; Lab</em>" : ""}</span>
+      </div>`;
+  }).join("");
+
+  spotlight.innerHTML = `
+    <div class="tsp-head">
+      <div class="tsp-title"><span class="tsp-dot" style="background:${ACCENT[subjCode] || 'var(--online)'}"></span>Teacher spotlight &middot; <strong>${initials}</strong> <span class="tsp-forsubj">&middot; ${subjName}</span></div>
+      <button class="tsp-close" onclick="clearTeacherFilter()">Clear filter &times;</button>
+    </div>
+    <div class="tsp-sub">${sessions.length} period${sessions.length === 1 ? "" : "s"} a week, highlighted above. Everything else is dimmed.</div>
+    <div class="tsp-rows">${rows}</div>
+  `;
+  spotlight.classList.add("show");
+}
+
+function buildTeacherDirectory(){
+  const el = document.getElementById("teacherDirectory");
+  if (!el) return;
+
+  const regularKeys = TEACHER_KEYS.filter(key => TEACHER_INDEX[key].some(s => s.type !== "lab"));
+  const labKeys = TEACHER_KEYS.filter(key => TEACHER_INDEX[key].some(s => s.type === "lab"));
+
+  const chipFor = (key, countFilter) => {
+    const sessions = TEACHER_INDEX[key].filter(countFilter);
+    const subjCode = sessions[0].code;
+    const initials = sessions[0].initials;
+    const accent = ACCENT[subjCode] || "var(--online)";
+    return `<span class="tdir-chip ${filterTeacher===key?'is-active':''}" data-teacher="${key}" style="--dccol:${accent}" onclick="toggleTeacherFilter('${key}')">
+      <span class="tdc-dot"></span>${initials}<span class="tdc-count">${subjCode} &middot; ${sessions.length}</span>
+    </span>`;
+  };
+
+  const regularChips = regularKeys.map(key => chipFor(key, s => s.type !== "lab")).join("");
+  const labChips = labKeys.map(key => chipFor(key, s => s.type === "lab")).join("");
+
+  el.innerHTML = `
+    <div class="tdir__head">
+      <h2>Teacher Directory</h2>
+      <p>Tap any teacher to spotlight every period they take this week. Lab-only teachers are listed separately below, since a lab session is not counted as a regular period.</p>
+    </div>
+    <div class="tdir__grid">${regularChips}</div>
+    ${labChips ? `
+    <div class="tdir__head" style="margin-top:18px;">
+      <h2 style="font-size:15px;">Lab Teachers</h2>
+      <p>Teachers who supervise a lab session this week.</p>
+    </div>
+    <div class="tdir__grid">${labChips}</div>` : ""}
+  `;
+}
+
+/* ============ day picker ============ */
+const btn = document.getElementById("daySelectBtn");
+const menu = document.getElementById("daySelectMenu");
+const dsbDot = document.getElementById("dsbDot");
+const dsbLabel = document.getElementById("dsbLabel");
+const dsbTag = document.getElementById("dsbTag");
+
+function buildMenu(){
+  menu.innerHTML = Object.keys(WEEK).map(k => {
+    const d = Number(k);
+    const meta = WEEK[d];
+    const accent = DAYMETA[d].accent;
+    const isToday = d === actualToday;
+    const note = meta.holiday ? "No classes" : (meta.note || "");
+    return `
+      <li class="day-opt ${d===selectedDay?'selected':''}" role="option" aria-selected="${d===selectedDay}" data-day="${d}" style="--optaccent:${accent}">
+        <span class="do-dot"></span>
+        <span class="do-main">
+          <span class="do-name">${meta.label}</span>
+          ${note ? `<span class="do-note">${note}</span>` : ""}
+        </span>
+        ${isToday ? `<span class="do-today">Today</span>` : ""}
+        <svg class="do-check" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </li>`;
+  }).join("");
+}
+
+function openMenu(){
+  buildMenu();
+  menu.classList.add("open");
+  btn.classList.add("open");
+  btn.setAttribute("aria-expanded","true");
+  btn.style.setProperty("--dsaccent", DAYMETA[selectedDay].accent);
+}
+function closeMenu(){
+  menu.classList.remove("open");
+  btn.classList.remove("open");
+  btn.setAttribute("aria-expanded","false");
+}
+btn.addEventListener("click", () => {
+  menu.classList.contains("open") ? closeMenu() : openMenu();
+});
+menu.addEventListener("click", (e) => {
+  const opt = e.target.closest(".day-opt");
+  if (!opt) return;
+  selectedDay = Number(opt.dataset.day);
+  closeMenu();
+  render();
+});
+document.addEventListener("click", (e) => {
+  if (!document.getElementById("daySelect").contains(e.target)) closeMenu();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape"){ closeMenu(); if (filterTeacher) clearTeacherFilter(); }
+});
+
+function jumpTo(day){
+  selectedDay = day;
+  render();
+  document.querySelector(".viewing-row").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+/* ============ main render ============ */
+function render(){
+  const now = new Date();
+  const isActualToday = selectedDay === actualToday;
+  const today = WEEK[selectedDay];
+  const dayAccent = DAYMETA[selectedDay].accent;
+
+  const hr = now.getHours();
+  const greetWord = hr < 12 ? "Good morning" : hr < 17 ? "Good afternoon" : "Good evening";
+  document.getElementById("greet").innerHTML = `${greetWord}, <span class="accentword">Raj</span>`;
+  document.getElementById("dateLine").textContent = now.toLocaleDateString("en-US", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
+  document.getElementById("clock").textContent = now.toLocaleTimeString("en-US", { hour12:true });
+
+  dsbDot.style.background = dayAccent;
+  dsbLabel.textContent = today.label;
+  dsbTag.style.display = isActualToday ? "inline-block" : "none";
+  btn.style.setProperty("--dsaccent", dayAccent);
+
+  const viewingNote = document.getElementById("viewingNote");
+  if (!isActualToday){
+    viewingNote.textContent = `You're looking at ${today.label}'s routine as a reference. Today is actually ${WEEK[actualToday].label}.`;
+    viewingNote.classList.add("show");
+  } else {
+    viewingNote.classList.remove("show");
+  }
+
+  const scheduleZone = document.getElementById("scheduleZone");
+  const glance = document.getElementById("glance");
+  const banner = document.getElementById("banner");
+  const legend = document.getElementById("legend");
+  const progressTrack = document.getElementById("progressTrack");
+
+  /* ---------- COMPARE-SECTIONS INLINE REPLACE ---------- */
+  const todayPanelTitle = document.getElementById("todayPanelTitle");
+  const todayPanelSub = document.getElementById("todayPanelSub");
+  const cmpInlineBannerEl = document.getElementById("cmpInlineBanner");
+  const showCmpInline = typeof cmpGroups !== "undefined" && cmpGroups.size === 1 && cmpMode === "inline";
+
+  if (showCmpInline){
+    const g = Array.from(cmpGroups)[0];
+    if (cmpInlineBannerEl){
+      cmpInlineBannerEl.innerHTML = `
+        <div class="cmp-inline-banner">
+          <div class="txt">Viewing <strong>${g}</strong>'s routine for ${cmpDay} instead of yours.</div>
+          <div class="cmp-inline-actions">
+            <button class="cmp-btn" onclick="cmpOpenPanel()">Open as separate panel instead</button>
+            <button class="cmp-btn primary" onclick="cmpClear()">Back to my routine</button>
+          </div>
+        </div>`;
+    }
+    if (todayPanelTitle) todayPanelTitle.textContent = `${g} &middot; ${cmpDay}`;
+    if (todayPanelSub) todayPanelSub.textContent = `Comparison view. This isn't your own routine.`;
+    renderInlineCompare(g);
+    buildWeekGrid();
+    return;
+  }
+  if (cmpInlineBannerEl) cmpInlineBannerEl.innerHTML = "";
+  if (todayPanelTitle) todayPanelTitle.textContent = isActualToday ? "Today's Routine" : `${today.label}'s Routine`;
+  if (todayPanelSub) todayPanelSub.textContent = `${today.label} &middot; Grade XII 'D'`;
+
+  /* ---------- HOLIDAY STATE ---------- */
+  if (today.holiday || today.periods.length === 0){
+    glance.innerHTML = "";
+    banner.classList.remove("show");
+    legend.innerHTML = "";
+    progressTrack.innerHTML = "";
+    document.getElementById("tickets").innerHTML = "";
+    scheduleZone.querySelectorAll(".hero-card").forEach(n=>n.remove());
+    scheduleZone.insertAdjacentHTML("beforeend", `
+      <div class="hero-card" style="--accent:var(--holiday)">
+        <div class="ring">${ICON.holiday}</div>
+        <h2>No classes ${isActualToday ? "today" : `on ${today.label}`}</h2>
+        <p>${today.label} is off the schedule. A good day to catch up on notes, rest, or get ahead on the coming week.</p>
+      </div>`);
+    buildWeekGrid();
+    return;
+  }
+  scheduleZone.querySelectorAll(".hero-card").forEach(n=>n.remove());
+
+  const periods = today.periods;
+  const classCount = periods.filter(p => p.type === "class" || p.type === "lab").length;
+  const hasLab = periods.some(p => p.type === "lab");
+  const first = periods[0];
+  const last = periods[periods.length - 1];
+  const lunch = periods.find(p => p.type === "lunch");
+
+  glance.innerHTML = `
+    <div class="stat"><div class="lbl">Periods</div><div class="val">${classCount} <small>classes</small></div></div>
+    <div class="stat"><div class="lbl">Hours</div><div class="val">${fmt12(first.s)} <small>&rarr; ${fmt12(last.e)}</small></div></div>
+    ${lunch ? `<div class="stat"><div class="lbl">Lunch</div><div class="val">${fmt12(lunch.s)}</div></div>` : ""}
+    <div class="stat"><div class="lbl">Lab session</div><div class="val">${hasLab ? "Yes" : "None"}</div></div>
+  `;
+
+  const withDates = periods.map(p => ({...p, sD: toDate(now, p.s), eD: toDate(now, p.e)}));
+  const currentIdx = isActualToday ? withDates.findIndex(p => now >= p.sD && now < p.eD) : -1;
+  const beforeSchool = isActualToday && now < withDates[0].sD;
+  const afterSchool = isActualToday && now >= withDates[withDates.length - 1].eD;
+
+  banner.classList.remove("show","info");
+  if (beforeSchool){
+    const mins = Math.ceil((withDates[0].sD - now) / 60000);
+    banner.innerHTML = `School hasn't started yet. First period begins in <strong>${minsToText(mins)}</strong>, at ${fmt12(withDates[0].s)}.`;
+    banner.classList.add("show");
+  } else if (afterSchool){
+    banner.innerHTML = `Classes are over for ${today.label.toLowerCase()}. See you next period, Raj.`;
+    banner.classList.add("show");
+  } else if (currentIdx !== -1 && (withDates[currentIdx].type === "break" || withDates[currentIdx].type === "lunch")){
+    const mins = Math.ceil((withDates[currentIdx].eD - now) / 60000);
+    const w = withDates[currentIdx].type === "lunch" ? "Lunch" : "Break";
+    banner.innerHTML = `${w} time. Back to class in <strong>${minsToText(mins)}</strong>.`;
+    banner.classList.add("show");
+  }
+
+  progressTrack.innerHTML = withDates.map((p,i) => {
+    const color = p.type === "class" || p.type === "lab" ? ACCENT[p.code] : "var(--brk)";
+    const status = isActualToday ? (i === currentIdx ? "now" : (now >= p.eD ? "done" : "")) : "";
+    return `<span class="p-dot ${status}" style="--dotcolor:${color}" title="${p.s}"></span>`;
+  }).join("");
+
+  const ticketsEl = document.getElementById("tickets");
+  ticketsEl.innerHTML = withDates.map((p, i) => {
+    const isNow = isActualToday && i === currentIdx;
+    const isDone = isActualToday && now >= p.eD;
+    const isNext = isActualToday && !isNow && !isDone && withDates.slice(0,i).every(q => now >= q.eD);
+    let stateClass = !isActualToday ? "is-plain" : (isNow ? "is-now" : (isDone ? "is-done" : (isNext ? "is-next" : "")));
+
+    const teacherHtml = (teacher, code) => {
+      if (teacher.includes(",")){
+        const chips = teacher.split(",").map(t => t.trim()).map(t => {
+          const key = teacherKey(code, t);
+          return `<span class="tchip ${filterTeacher===key?'is-active':''}" data-key="${key}" onclick="event.stopPropagation();toggleTeacherFilter('${key}')">${t}</span>`;
+        }).join("");
+        return `<div class="teacherbox"><span class="tlabel">Teachers</span><div class="tchips">${chips}</div></div>`;
+      }
+      const t = teacher.trim();
+      const key = teacherKey(code, t);
+      return `<div class="teacherbox"><span class="tlabel">Teacher</span><span class="tname ${filterTeacher===key?'is-active':''}" data-key="${key}" onclick="event.stopPropagation();toggleTeacherFilter('${key}')">${t}</span></div>`;
+    };
+
+    if (p.type === "class" || p.type === "lab"){
+      const accent = ACCENT[p.code];
+      const fullname = p.subject || FULLNAME[p.code];
+      let statusHtml = "";
+      if (isNow){
+        const mins = Math.ceil((p.eD - now)/60000);
+        statusHtml = `<span class="pill now"><span class="dot"></span>Now</span><span class="countdown">${minsToText(mins)} left</span>`;
+      } else if (isNext){
+        const mins = Math.ceil((p.sD - now)/60000);
+        statusHtml = `<span class="pill next">Next</span><span class="countdown">in ${minsToText(mins)}</span>`;
+      }
+      return `
+        <div class="ticket ${stateClass}" style="--accent:${accent}">
+          <div class="stub">
+            <span class="start">${fmt12(p.s)}</span>
+            <span class="end">${fmt12(p.e)}</span>
+            <span class="plabel">Period ${i+1}</span>
+          </div>
+          <div class="perf"></div>
+          <div class="body">
+            <div class="badge">${p.code}</div>
+            <div class="info">
+              <h3>${fullname}</h3>
+              ${p.type === "lab" ? `<span class="lab-tag">Lab &middot; double period</span>` : ""}
+            </div>
+            ${teacherHtml(p.teacher, p.code)}
+            <div class="status">${statusHtml}</div>
+          </div>
+        </div>`;
+    } else {
+      const accent = p.type === "study" ? "var(--study)" : "var(--brk)";
+      const label = LABEL[p.type];
+      let statusHtml = "";
+      if (isNow){
+        const mins = Math.ceil((p.eD - now)/60000);
+        statusHtml = `<span class="pill now"><span class="dot"></span>Now</span><span class="countdown">${minsToText(mins)} left</span>`;
+      } else if (isNext){
+        statusHtml = `<span class="pill next">Next</span>`;
+      }
+      return `
+        <div class="ticket compact ${stateClass}" style="--accent:${accent}">
+          <div class="stub">
+            <span class="start">${fmt12(p.s)}</span>
+            <span class="end">${fmt12(p.e)}</span>
+          </div>
+          <div class="perf"></div>
+          <div class="body">
+            <div class="badge">${ICON[p.type]}</div>
+            <div class="info"><h3>${label}</h3></div>
+            <div class="status">${statusHtml}</div>
+          </div>
+        </div>`;
+    }
+  }).join("");
+
+  const seen = new Map();
+  periods.forEach(p => { if (p.code) seen.set(p.code, FULLNAME[p.code]); });
+  let legendHtml = "";
+  seen.forEach((name, code) => {
+    legendHtml += `<span class="item"><span class="sw" style="background:${ACCENT[code]}"></span>${name}</span>`;
+  });
+  if (periods.some(p=>p.type==="break")) legendHtml += `<span class="item"><span class="sw" style="background:var(--brk)"></span>Break</span>`;
+  if (periods.some(p=>p.type==="lunch")) legendHtml += `<span class="item"><span class="sw" style="background:var(--brk)"></span>Lunch</span>`;
+  if (periods.some(p=>p.type==="study")) legendHtml += `<span class="item"><span class="sw" style="background:var(--study)"></span>Study Hour</span>`;
+  legend.innerHTML = legendHtml;
+
+  buildWeekGrid();
+}
+
+/* ============ full-week aesthetic grid (transposed: days as rows, periods as columns) ============ */
+function buildWeekGrid(){
+  const grid = document.getElementById("weekGrid");
+  let html = `<div class="wg-corner"></div>`;
+
+  // time headers (top row)
+  ROWTIMES.forEach((r, i) => {
+    const isBreak = i === 2 || i === 8;
+    html += `<div class="wg-timelabel ${isBreak?'is-break':''}" style="grid-column:${i+2};grid-row:1">${fmt12(r.s)}&ndash;${fmt12(r.e)}</div>`;
+  });
+
+  // day headers (left column)
+  Object.keys(WEEK).forEach(k => {
+    const d = Number(k);
+    const meta = WEEK[d];
+    const accent = DAYMETA[d].accent;
+    const cls = ["wg-head"];
+    if (d === actualToday) cls.push("is-today");
+    if (d === selectedDay) cls.push("is-selected");
+    const tag = meta.holiday ? "Off" : (meta.note ? "Online" : "");
+    html += `<div class="${cls.join(' ')}" style="grid-column:1;grid-row:${d+2};--hcol:${accent}" onclick="jumpTo(${d})">
+      <div class="wgh-day">${DAYMETA[d].short}</div>
+      ${tag ? `<div class="wgh-tag">${tag}</div>` : ""}
+    </div>`;
+  });
+
+  // day rows
+  Object.keys(WEEK).forEach(k => {
+    const d = Number(k);
+    const meta = WEEK[d];
+    const rowStyle = d === actualToday ? ` wg-row-today` : "";
+
+    if (meta.holiday || meta.periods.length === 0){
+      if (meta.holiday){
+        html += `<div class="wg-cell wg-holiday${rowStyle}" style="grid-row:${d+2};grid-column:2 / span 11">Holiday</div>`;
+      } else {
+        // e.g. Sunday: fill mapped periods, then filler for the rest
+        meta.periods.forEach(p => {
+          const {col, span} = colRange(p);
+          html += renderWgCell(p, d, col, span, rowStyle);
+        });
+        const lastP = meta.periods[meta.periods.length-1];
+        const lastCol = colRange(lastP);
+        const usedThrough = lastCol.col + lastCol.span; // next free column
+        const remaining = 13 - usedThrough; // columns go 2..12
+        if (remaining > 0){
+          html += `<div class="wg-cell wg-filler${rowStyle}" style="grid-row:${d+2};grid-column:${usedThrough} / span ${remaining}">Free</div>`;
+        }
+      }
+      return;
+    }
+
+    meta.periods.forEach(p => {
+      const {col, span} = colRange(p);
+      html += renderWgCell(p, d, col, span, rowStyle);
+    });
+  });
+
+  grid.innerHTML = html;
+  applyTeacherFilter();
+}
+
+function renderWgCell(p, d, col, span, rowStyle){
+  const gridStyle = `grid-row:${d+2};grid-column:${col} / span ${span};`;
+  if (p.type === "break"){
+    return `<div class="wg-cell wg-break${rowStyle}" style="${gridStyle}"></div>`;
+  }
+  if (p.type === "lunch"){
+    return `<div class="wg-cell wg-lunch${rowStyle}" style="${gridStyle}--ccol:var(--brk)"><span class="wc-code">Lunch</span></div>`;
+  }
+  if (p.type === "study"){
+    return `<div class="wg-cell wg-study${rowStyle}" style="${gridStyle}--ccol:var(--study)"><span class="wc-code">Study</span></div>`;
+  }
+  const accent = ACCENT[p.code];
+  const teacherLabel = p.teacher.includes(',') ? p.teacher.split(',').length + ' teachers' : p.teacher;
+  const keys = p.teacher.split(',').map(t => teacherKey(p.code, t)).join(',');
+  return `<div class="wg-cell${rowStyle}" data-teacherkeys="${keys}" style="${gridStyle}--ccol:${accent}" onclick="wgCellClick(this)">
+    <span class="wc-code">${p.code}${p.type==='lab' ? ' Lab' : ''}</span>
+    <span class="wc-teacher">${teacherLabel}</span>
+  </div>`;
+}
+
+function wgCellClick(el){
+  const keys = (el.dataset.teacherkeys || "").split(",").map(s=>s.trim()).filter(Boolean);
+  if (keys.length === 0) return;
+  const k = keys.includes(filterTeacher) ? filterTeacher : keys[0];
+  toggleTeacherFilter(k);
+}
+
+/* ============================================================
+   COMPARE OTHER SECTIONS
+   Raw data transcribed from the posted master timetable, parsed
+   generically so every section/day combination stays in sync
+   with the source table.
+   ============================================================ */
+const RAW_MD = `
+### **Monday**
+
+| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 | 12:40-01:15 | 01:20-02:05 | 02:05-02:50 | 03:00-03:45 | 03:45-04:30 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **XI A** | Maths DP | Bot NSD | Maths DPA | Lunch Break | Chem DP | Zoo BP | BOT JT | Maths RBY | Chem MN |
+| **XI B** | Maths RBY | Zoo PT | Bot NSD | Maths DP | Lunch Break | Chem RR | Bot NSD | Chem SP | Eng BP |
+| **XI C** | Zoo AJ | ZOO YB | Chem DLK | Bot BS | Lunch Break | Phy UA | Nep DP | Maths DP | BIO(NSD+BS+BP+AJ) |
+| **XI D** | Maths PK | BOT JT | Zoo AJ | Phy RT | Lunch Break | Phy AK | Zoo BP | Chem NP | Eng NB |
+| **XI E** | Nep DP | Eng NB | Bot SM | Phy | Lunch Break | Nep KP | Phy YP | Phy KGT | Chem NP |
+| **XI F** | Maths AMS | Phy HB | Zoo PT | Maths AMS | Lunch Break | Maths RBY | Phy GJ | BIO(JT+SM+PT+AJ) | Phy NB |
+| **XI G** | Eng PL | Comp JS | PHY(YP+HKS+BP+HB) | Lunch Break | Comp MP | Bot BS | Phy KGT | Maths AMS | Nep JA |
+| **XI H** | PHY(UA+AK+KPA+RT) | Maths AMS | Chem RR | Lunch Break | Chem DLK | Chem KS | Maths DPA | Nep AC | Comp JM |
+| **XII I** | Comp JS | Phy HKS | Nep AC | Eng PL | Lunch Break | Maths PK | COMP(JM+JS+SM) | Maths AMS | PHY(YP+AK+BP+HKS) |
+| **XII A** | CHEM(SP+DA+RR+DP) | Chem NP | Lunch Break | Chem DP | Eng NB | Phy HB | BOT JT | Free | Free |
+| **XII B** | Bot BS | Nep DP | Eng NB | Lunch Break | Chem NR | Maths RBY | Maths DP | Chem SP | Free |
+| **XII C** | Chem NR | Maths RBY | BOT JT | Lunch Break | Chem RR | Zoo BP | Chem MB | Maths DP | Free |
+| **XII D** | Chem NP | Nep KP | Maths DP | Lunch Break | Phy UA | CHEM(NR+SP+MN+NP) | Maths PK | Eng PL | Free |
+| **XII E** | Phy BP | Bot SM | Chem DA | Lunch Break | Phy AK | Maths DP | Phy GJ | ZOO GC | Maths PK |
+| **XII F** | Zoo BP | Chem NKS | Chem MN | Lunch Break | Nep KP | Chem KS | Bot BS | Phy GJ | Maths AMS |
+| **XII G** | Nep AC | Eng BP | Chem SP | Lunch Break | Maths RBY | Maths PK | Chem KS | CHEM(DA+DP+RR+DLK) | Free |
+| **XII H** | Eng BP | Chem MN | Chem NKS | Lunch Break | Comp MP | COMP(JM+JS+SM) | Nep KP | Maths RBY | Free |
+| **XII I** | Chem NKS | Chem NR | Maths PK | Lunch Break | Chem DLK | Phy AK | Eng PL | Nep PL | Phy UA |
+
+### **Tuesday**
+
+| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 | 12:40-01:15 | 01:20-02:05 | 02:05-02:50 | 03:00-03:45 | 03:45-04:30 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **XI A** | Chem NR | ZOO YB | ZOO AJ | Lunch Break | Phy YP | Maths DP | Chem NP | Maths DP | Eng NB |
+| **XI B** | Maths DP | Nep KP | Maths DP | Lunch Break | CHEM(NR+DLK+SP+DA) | Phy DP | ZOO GC | Chem MB | Eng BP |
+| **XI C** | Phy UA | Nep DP | Zoo PT | Lunch Break | Maths DP | Zoo PT | BIO(NSD+BS+AJ+BP) | Nep KP | Maths AMS |
+| **XI D** | Maths RBY | Eng NB | Bot NSD | Lunch Break | Bot BS | Chem MB | PHY(KGT+AK+HKS+UA) | BIO(BS+SM+PT+AJ) | Free |
+| **XI E** | CHEM(DP+NP+MN+RR) | Nep AC | Lunch Break | Zoo BP | Nep AC | Eng LMJ | Nep DP | Free | Free |
+| **XI F** | Nep KP | Eng BP | Chem MN | Lunch Break | Bot JT | Bot SM | Phy HB | Chem KS | Nep DP |
+| **XI G** | Nep AC | Chem DA | Maths DPA | Lunch Break | Chem DP | Maths DPA | Comp MP | Phy DP | Chem DLK |
+| **XI H** | Maths AMS | Phy AK | Chem NP | Lunch Break | Comp JM | Value Edu PSB | Phy BP | Maths AMS | Maths RBY |
+| **XI I** | Eng NB | Maths AMS | Comp JS | Lunch Break | Phy HKS | CHEM(DP+RR+DA+MN) | Chem DA | Free | Free |
+| **XII A** | BIO(JT+BS+PT+BP) | Maths RBY | Lunch Break | Phy GJ | Chem DP | Eng NB | Free | Free | Free |
+| **XII B** | Chem SP | Chem NKS | Phy HKS | Lunch Break | Maths AMS | Phy DP | Zoo GC | Eng BP | Free |
+| **XII C** | Chem MN | Chem NR | Phy KPA | Lunch Break | Maths RBY | BIO(NSD+BS+AJ+BP) | Chem MB | Eng BP | Free |
+| **XII D** | Eng PL | Chem DLK | Chem NKS | Lunch Break | Bot SM | PHY(KGT+AK+HKS+UA) | Nep KP | Maths AMS | Free |
+| **XII E** | Bot SM | Maths PK | Phy BP | Lunch Break | Chem RR | Eng LMJ | Nep DP | BIO(BS+SM+PT+AJ) | Free |
+| **XII F** | PHY(YP+KPA+BP+HB) | Eng PL | Lunch Break | Chem MN | Phy HB | Chem KS | Nep DP | Free | Free |
+| **XII G** | Eng BP | Chem SP | Maths AMS | Lunch Break | Maths PK | Comp MP | Phy DP | Chem DLK | Free |
+| **XII H** | Phy HKS | Comp JS | Nep DP | Lunch Break | Eng BP | Phy BP | Maths AMS | Maths RBY | Free |
+
+### **Wednesday**
+
+| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 | 12:40-01:15 | 01:20-02:05 | 02:05-02:50 | 03:00-03:45 | 03:45-04:30 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **XI A** | Maths PK | Phy UA | Maths DP | Lunch Break | Nep DP | Comp JM | Nep DP | Chem NR | COMP(JM+MP+JS) |
+| **XI B** | Chem MN | Nep AC | Maths DP | Lunch Break | Chem SP | Lunch Break | BIO(NSD+SM+PT+AJ) | Phy AK | Free |
+| **XI C** | Maths DP | Bot SM | Chem NR | Lunch Break | Phy BP | Lunch Break | Phy UA | Chem SP | Free |
+| **XI D** | PHY(HKS+GJ+UA+RT) | Zoo AJ | Lunch Break | Maths DPA | Lunch Break | Maths PK | Maths RBY | Free | Free |
+| **XI E** | Phy HB | Chem SP | PHY(UA+YP+AK+KPA) | Lunch Break | Eng NB | Lunch Break | Chem RR | BIO(JT+SM+BP+PT) | Free |
+| **XI F** | Maths AMS | Bot JT | Phy RT | Lunch Break | PHY(HKS+YP+HB+RT) | Lunch Break | Chem DP | PHY(VKJ+BP+YP+KPA) | Free |
+| **XI G** | Bot SM | Chem DA | Maths AMS | Lunch Break | Maths PK | Lunch Break | Maths PK | Eng BP | Free |
+| **XI H** | Nep AC | Maths PK | Chem DP | Lunch Break | COMP(JM+JS+SM) | Lunch Break | Phy VKJ | Chem NP | Maths AMS |
+| **XII I** | Eng NB | Phy KPA | Eng NB | Lunch Break | Phy VKJ | Lunch Break | Chem DA | Value Edu PSB | Nep AC |
+| **XII A** | Zoo PT | Chem NKS | Bot NSD | Lunch Break | Phy HB | Nep DP | Bot JT | Maths RBY | Eng NB |
+| **XII B** | Maths RBY | Zoo PT | Chem SP | Lunch Break | Chem RR | Bot JT | Phy DP | Phy GJ | Phy HKS |
+| **XII C** | CHEM(NR+DLK+NP+DP) | Eng BP | Lunch Break | Phy KPA | Maths AMS | ZOO GC | Nep KP | Phy UA | Free |
+| **XII D** | Zoo AJ | Phy AK | Bot BS | Lunch Break | Zoo BP | Chem DLK | Eng PL | Nep DP | PHY HKS |
+| **XII E** | Chem NKS | Phy BP | Zoo PT | Lunch Break | Maths DP | Eng LMJ | Phy VKJ | Bot BS | Maths PK |
+| **XII F** | Nep KP | Bot NSD | Chem MN | Lunch Break | Maths RBY | CHEM(NR+MN+NP+SP) | ZOO AJ | Nep DP | Free |
+| **XII G** | Eng BP | Phy YP | Maths RBY | Lunch Break | Nep KP | Phy DP | Study Hour | Comp MP | Maths DP |
+| **XII H** | Phy BP | Comp JS | Chem DA | Lunch Break | Phy GJ | Maths DP | Study Hour | Maths AMS | CHEM(DA+RR+MN+DP) |
+| **XIII I** | Eng PL | Nep DP | Chem SP | Lunch Break | Comp JM | Phy AK | Study Hour | CHEM(NR+MN+DLK+DA) | Free |
+
+### **Thursday**
+
+| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 | 12:40-01:15 | 01:20-02:05 | 02:05-02:50 | 03:00-03:45 | 03:45-04:30 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **XI A** | Chem DP | Nep AC | Bot BS | Lunch Break | ZOO AJ | Maths DP | Bot BS | Eng BP | Maths PK |
+| **XI B** | Nep AC | Phy RT | Phy KPA | Lunch Break | Eng PL | Phy BP | Eng BP | Eng NB | Maths DP |
+| **XI C** | Phy RT | Chem NKS | Chem NKS | Lunch Break | Phy BP | Chem DLK | Nep AC | Chem NP | Nep AC |
+| **XI D** | CHEM(DLK+SP+DA+NP) | Bot NSD | Lunch Break | Chem DLK | Bot NSD | Value Edu PSB | Chem DP | Free | Free |
+| **XI E** | Phy BP | Phy RT | Zoo BP | Lunch Break | Bot JT | Zoo BP | Phy KPA | Maths AMS | Free |
+| **XI F** | Chem NKS | Bot JT | Nep KP | Lunch Break | Zoo BP | CHEM(NR+RR+DP+SP) | ZOO YB | Eng PL | Free |
+| **XI G** | Chem DP | Chem MN | CHEM(DP+NP+MN+RR) | Lunch Break | Comp JM | Phy YP | Phy RT | Value Edu Fr. Ajay | Maths AMS |
+| **XI H** | Maths AMS | Comp JS | Phy YP | Lunch Break | Phy YP | Comp JS | CHEM(NP+NR+MN+DLK) | Phy AK | Free |
+| **XII I** | Nep DP | Eng NB | Comp JS | Lunch Break | Comp JS | Chem NKS | Phy KPA | Chem DP | Nep JA |
+| **XII A** | Maths DP | Nep KP | Zoo PT | Lunch Break | Eng NB | Maths RBY | PHY(KPA+YP+UA+HB) | Free | Free |
+| **XII B** | Eng NB | Zoo FT | Maths RBY | Lunch Break | Chem RR | Phy HKS | Phy DP | Nep KP | Free |
+| **XII C** | Maths RBY | Chem NR | Zoo AJ | Lunch Break | Maths DP | Bot NSD | BIO(JT+BS+AJ+PT) | Eng BP | Free |
+| **XII D** | Maths PK | Phy AK | Chem NP | Lunch Break | Phy HKS | Phy GJ | Phy VKJ | Phy DP | Free |
+| **XII E** | PHY(HKS+KPA+GJ+HB) | Maths AMS | Lunch Break | Chem DA | Eng LMJ | ZOO GC | Chem RR | Maths RBY | Free |
+| **XII F** | BIO(NSD+SM+AJ+BP) | Maths PK | Lunch Break | Phy HB | BOT SM | Eng PL | Maths PK | Phy DP | Free |
+| **XII G** | Phy YP | Eng BP | Phy GJ | Lunch Break | Chem SP | Comp(JM+JS+MP) | Maths PK | Phy HKS | Comp JS |
+| **XII H** | Chem MN | Phy BP | Nep DP | Lunch Break | Maths PK | PHY(DP+UA+YP+BP) | Nep KP | Phy AK | Comp JM |
+| **XIII I** | Phy UA | Maths AMS | Eng PL | Lunch Break | Nep KP | Chem DA | Nep KP | Free | Free |
+
+### **Friday**
+
+| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 | 12:40-01:15 | 01:20-02:05 | 02:05-02:50 | 03:00-03:45 | 03:45-04:30 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **XI A** | ZOO AJ | Zoo PT | Chem MN | Phy YP | Lunch Break | Nep KP | BOT JT | Eng PL | Phy GJ |
+| **XI B** | Phy KPA | Bot PSB | PHY(AK+BP+GJ+KPA) | Lunch Break | Chem SP | Chem NR | BIO(SM+JT+BP+PT) | Free | Free |
+| **XI C** | Eng BP | Bot SM | Bot BS | Chem NKS | Lunch Break | Phy VKJ | Phy UA | Nep JA | Maths DP |
+| **XI D** | Eng NB | Phy AK | Phy HB | Chem SP | Lunch Break | ZOO YB | Value Edu Fr. Ajay | Zoo AJ | Chem DLK |
+| **XI E** | Chem RR | Nep AC | Eng NB | Maths RBY | Lunch Break | BIO(NSD+BS+PT+BP) | Maths AMS | Phy KPA | Free |
+| **XI F** | Chem NKS | Eng BP | CHEM(DLK+DP+DA+RR) | Lunch Break | Phy KGT | Value Edu PSB | Nep AC | Maths AMS | Free |
+| **XI G** | Eng PL | Chem DA | Chem NKS | Phy UA | Lunch Break | Maths AMS | Phy KGT | Comp JS | Nep JA |
+| **XI H** | Phy BP | Chem NKS | Comp JM | Maths AMS | Lunch Break | Nep AC | Chem NP | Eng NB | Phy YP |
+| **XII I** | Chem DA | Phy KPA | Maths AMS | Eng PL | Lunch Break | COMP(JM+JS+SM) | Maths PK | Chem DP | Free |
+| **XII A** | Maths AMS | Chem DP | Maths RBY | Lunch Break | Phy HB | Phy HKS | ZOO GC | Bot BS | Nep DP |
+| **XII B** | CHEM(MN+NR+SP+NP) | Zoo BP | Lunch Break | Maths DP | Maths RBY | Eng NB | Nep KP | Phy HKS | Free |
+| **XII C** | PHY(HKS+YP+UA+HB) | Nep KP | Lunch Break | Bot JT | Phy UA | Zoo AJ | Eng BP | Maths RBY | Free |
+| **XII D** | Chem DLK | Maths DP | Phy HKS | Lunch Break | Chem RR | Maths PK | Nep DP | ZOO GC | Bot NSD |
+| **XII E** | Maths PK | Nep DP | Bot NSD | Lunch Break | Chem RR | Eng LMJ | Phy VKJ | CHEM(NR+SP+NP+RR) | Free |
+| **XII F** | BOT SM | Zoo AJ | Nep DP | Lunch Break | Phy YP | Maths DP | Chem KS | Maths RBY | Eng PL |
+| **XII G** | Maths DP | Maths PK | Nep AC | Lunch Break | Comp MP | Chem KS | Phy YP | PHY(HB+UA+BP+AK) | Free |
+| **XII H** | Maths RBY | Chem DLK | Comp JS | Lunch Break | Chem MN | CHEM(DA+MN+DLK+DP) | Phy HKS | Eng BP | Free |
+| **XII I** | Phy GJ | Comp JM | Eng PL | Lunch Break | Chem NR | PHY(BP+AK+GJ+HB) | Maths DP | Maths PK | Free |
+
+### **Sunday**
+
+| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 |
+| :--- | :--- | :--- | :--- | :--- |
+| **XII A** | Nep KP | Phy HKS | Chem NP | Study Hour |
+| **XII B** | Eng NB | Nep DP | BOT JT | Study Hour |
+| **XII C** | Phy KPA | Bot BS | Chem MB | Study Hour |
+| **XII D** | Eng PL | Zoo AJ | Maths PK | Study Hour |
+| **XII E** | Chem DA | Zoo PT | Nep KP | Study Hour |
+| **XII F** | Phy HB | Eng PL | Phy YP | Study Hour |
+`;
+
+function parseCompareData(md){
+  const data = {};
+  let currentDay = null;
+  md.split("\n").forEach(rawLine => {
+    const line = rawLine.trim();
+    const dayMatch = line.match(/^###\s+\*\*(.+?)\*\*$/);
+    if (dayMatch){
+      currentDay = dayMatch[1].trim();
+      data[currentDay] = { times: [], groups: {} };
+      return;
+    }
+    if (!currentDay || !line.startsWith("|")) return;
+    let cells = line.split("|").map(c => c.trim());
+    if (cells[0] === "") cells.shift();
+    if (cells[cells.length - 1] === "") cells.pop();
+    if (cells.length === 0) return;
+    if (cells[0] === "Group"){ data[currentDay].times = cells.slice(1); return; }
+    if (/^:?-+:?$/.test(cells[0])) return;
+    if (cells[0].startsWith("**")){
+      const groupName = cells[0].replace(/\*\*/g, "").trim();
+      data[currentDay].groups[groupName] = cells.slice(1);
+    }
+  });
+  return data;
+}
+
+const COMPARE = parseCompareData(RAW_MD);
+const COMPARE_DAYS = Object.keys(COMPARE);
+
+const CMP_ACCENT_MAP = [
+  [/^maths?/i, "var(--math)"],
+  [/^chem/i, "var(--chem)"],
+  [/^phy/i, "var(--phy)"],
+  [/^bot/i, "var(--bot)"],
+  [/^zoo/i, "var(--zoo)"],
+  [/^bio/i, "var(--bio)"],
+  [/^nep/i, "var(--nep)"],
+  [/^eng/i, "var(--eng)"],
+  [/^comp/i, "var(--online)"],
+  [/^value/i, "var(--study)"],
+];
+function cmpCellAccent(text){
+  for (const [re, color] of CMP_ACCENT_MAP){ if (re.test(text)) return color; }
+  return "var(--holiday)";
+}
+function isMutedCell(text){
+  return /^lunch break$/i.test(text) || /^study hour$/i.test(text) || text === "-" || text === "" || /^free/i.test(text);
+}
+
+let cmpDay = COMPARE_DAYS[0];
+let cmpGroups = new Set();
+let cmpMode = "inline";
+let cmpView = "grid";
+
+function cmpSetDay(d){ cmpDay = d; buildComparePanel(); render(); }
+function cmpToggleGroup(g){
+  if (cmpGroups.has(g)) cmpGroups.delete(g); else cmpGroups.add(g);
+  buildComparePanel(); render();
+}
+function cmpSetView(v){ cmpView = v; buildComparePanel(); }
+function cmpClear(){ cmpGroups.clear(); cmpMode = "inline"; buildComparePanel(); render(); }
+function cmpOpenPanel(){
+  cmpMode = "panel";
+  document.getElementById("comparePanel").setAttribute("data-open","true");
+  buildComparePanel(); render();
+}
+
+function buildComparePanel(){
+  const el = document.getElementById("comparePanelBody");
+  if (!el) return;
+
+  const dayBtns = COMPARE_DAYS.map(d => `<button class="cmp-daybtn ${d===cmpDay?'is-active':''}" onclick="cmpSetDay('${d}')">${d}</button>`).join("");
+  const groupsForDay = COMPARE[cmpDay] ? Object.keys(COMPARE[cmpDay].groups) : [];
+  const groupChips = groupsForDay.map(g => `<span class="cmp-groupchip ${cmpGroups.has(g)?'is-active':''}" onclick="cmpToggleGroup('${g}')">${g}</span>`).join("");
+
+  el.innerHTML = `
+    <p style="color:var(--chalk-dim);font-size:13px;margin:0 0 14px;line-height:1.5;">
+      Pick a day and one or more sections to see their routine here. Choosing exactly one section
+      replaces your own routine above by default. Use "Open as separate panel instead" up there,
+      or pick more than one section, to keep your own routine untouched and see the comparison here instead.
+    </p>
+    <div class="cmp-label">Day</div>
+    <div class="cmp-row">${dayBtns}</div>
+    <div class="cmp-label">Section${groupsForDay.length ? "" : " (none found for this day)"}</div>
+    <div class="cmp-groups">${groupChips}</div>
+    <div class="cmp-toolbar">
+      <div class="cmp-view-toggle">
+        <button class="${cmpView==='grid'?'is-active':''}" onclick="cmpSetView('grid')">Grid</button>
+        <button class="${cmpView==='list'?'is-active':''}" onclick="cmpSetView('list')">List</button>
+      </div>
+      ${cmpGroups.size ? `<button class="cmp-clear" onclick="cmpClear()">Stop comparing</button>` : ""}
+    </div>
+    <div class="cmp-results" id="cmpResults"></div>
+  `;
+  renderCmpResults();
+}
+
+function cmpRenderCell(raw){
+  const text = (raw || "-").trim() || "-";
+  if (isMutedCell(text)){
+    return `<td><span class="cmp-cell cmp-muted">${/^free/i.test(text) || text === "-" ? "Free" : text}</span></td>`;
+  }
+  return `<td><span class="cmp-cell" style="--cc:${cmpCellAccent(text)}">${text}</span></td>`;
+}
+function cmpCellText(text){
+  text = (text || "-").trim() || "-";
+  return (/^free/i.test(text) || text === "-") ? "Free" : text;
+}
+
+function renderCmpResults(){
+  const el = document.getElementById("cmpResults");
+  if (!el) return;
+  if (cmpGroups.size === 0){
+    el.innerHTML = `<p class="cmp-empty">Select at least one section above to see its schedule.</p>`;
+    return;
+  }
+  const dayData = COMPARE[cmpDay];
+  if (!dayData){ el.innerHTML = `<p class="cmp-empty">No data found for ${cmpDay}.</p>`; return; }
+
+  const groupsArr = Array.from(cmpGroups);
+
+  if (cmpView === "grid"){
+    const times = dayData.times;
+    const rows = times.map((t, ti) => {
+      const cells = groupsArr.map(g => cmpRenderCell(dayData.groups[g] ? dayData.groups[g][ti] : "-")).join("");
+      return `<tr><td class="cmp-time">${t}</td>${cells}</tr>`;
+    }).join("");
+    const headCells = groupsArr.map(g => `<th>${g}</th>`).join("");
+    el.innerHTML = `<div style="overflow-x:auto;"><table class="cmp-table"><thead><tr><th>Time</th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
+  } else {
+    el.innerHTML = groupsArr.map(g => {
+      const cells = dayData.groups[g] || [];
+      const rows = dayData.times.map((t, ti) => `<div class="cmp-list-row"><span class="cmp-time">${t}</span><span>${cmpCellText(cells[ti])}</span></div>`).join("");
+      return `<div class="cmp-list-card"><h3>${g} &middot; ${cmpDay}</h3>${rows}</div>`;
+    }).join("");
+  }
+}
+
+function renderInlineCompare(group){
+  document.getElementById("glance").innerHTML = "";
+  document.getElementById("banner").classList.remove("show");
+  document.getElementById("progressTrack").innerHTML = "";
+  document.getElementById("legend").innerHTML = "";
+  document.getElementById("scheduleZone").querySelectorAll(".hero-card").forEach(n => n.remove());
+
+  const dayData = COMPARE[cmpDay];
+  const times = dayData ? dayData.times : [];
+  const cells = dayData && dayData.groups[group] ? dayData.groups[group] : [];
+
+  document.getElementById("tickets").innerHTML = times.map((t, i) => {
+    const raw = (cells[i] || "-").trim() || "-";
+    const muted = isMutedCell(raw);
+    const accent = muted ? "var(--brk)" : cmpCellAccent(raw);
+    const parts = t.split("-");
+    const code = muted ? "" : (raw.split(/[\s(]/)[0] || "").slice(0, 6);
+    const label = muted ? (/^free/i.test(raw) || raw === "-" ? "Free Period" : raw) : raw;
+    return `
+      <div class="ticket compact is-plain" style="--accent:${accent}">
+        <div class="stub"><span class="start">${fmt12(parts[0])}</span><span class="end">${parts[1] ? fmt12(parts[1]) : ""}</span></div>
+        <div class="perf"></div>
+        <div class="body">
+          <div class="badge">${muted ? ICON.break : code}</div>
+          <div class="info"><h3>${label}</h3></div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+buildComparePanel();
+render();
+buildTeacherDirectory();
+setInterval(render, 1000);
+</script>
+</body>
+</html>
