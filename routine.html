@@ -800,17 +800,6 @@
     </div>
   </section>
 
-  <section class="panel" id="comparePanel" data-open="false">
-    <button class="panel__head" onclick="togglePanel('comparePanel')">
-      <div class="panel__title">
-        <h2>Compare Other Sections</h2>
-        <p>Look up any other group's routine on any day.</p>
-      </div>
-      <svg class="panel__chev" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-    </button>
-    <div class="panel__body" id="comparePanelBody"></div>
-  </section>
-
   <section class="panel" id="directoryPanel" data-open="false">
     <button class="panel__head" onclick="togglePanel('directoryPanel')">
       <div class="panel__title">
@@ -824,71 +813,68 @@
     </div>
   </section>
 
-  <footer>Transcribed from the posted Class Schedule &middot; updates automatically each day</footer>
+  <footer>Transcribed from the posted Class Schedule for Grade XII 'D' &middot; updates automatically each day</footer>
 </div>
 
 <script>
-/* ============ DATA: full week, straight from the notice board ============ */
+/* ============ DATA: Grade XII 'D' routine, taken directly from the master timetable ============ */
 const WEEK = {
-  0: { label:"Sunday", note:"Online classes", periods:[
-    {s:"09:30",e:"10:15",type:"class",code:"Eng",subject:"English",teacher:"PL"},
-    {s:"10:15",e:"11:00",type:"class",code:"Zoo",subject:"Zoology",teacher:"AJ"},
-    {s:"11:00",e:"11:10",type:"break"},
-    {s:"11:10",e:"11:55",type:"class",code:"Math",subject:"Mathematics",teacher:"PK"},
-    {s:"11:55",e:"12:40",type:"study"},
-  ]},
+  0: { label:"Sunday", holiday:true, periods:[] },
   1: { label:"Monday", periods:[
-    {s:"09:30",e:"10:15",type:"class",code:"Chem",subject:"Chemistry",teacher:"NP"},
-    {s:"10:15",e:"11:00",type:"class",code:"Nep",subject:"Nepali",teacher:"KP"},
-    {s:"11:00",e:"11:10",type:"break"},
-    {s:"11:10",e:"11:55",type:"class",code:"Math",subject:"Mathematics",teacher:"DP"},
-    {s:"11:55",e:"12:40",type:"lunch"},
-    {s:"12:40",e:"13:20",type:"class",code:"Phy",subject:"Physics",teacher:"AK"},
-    {s:"13:20",e:"14:50",type:"lab",code:"Chem",subject:"Chemistry Lab",teacher:"NR, SP, DA, NP"},
-    {s:"14:50",e:"15:00",type:"break"},
-    {s:"15:00",e:"15:45",type:"class",code:"Math",subject:"Mathematics",teacher:"PK"},
-    {s:"15:45",e:"16:30",type:"class",code:"Eng",subject:"English",teacher:"PL"},
+    {s:"09:30",e:"10:10",type:"class",code:"Chem",subject:"Chemistry",teacher:"NP"},
+    {s:"10:10",e:"10:50",type:"class",code:"Nep",subject:"Nepali",teacher:"KP"},
+    {s:"10:50",e:"11:00",type:"break"},
+    {s:"11:00",e:"11:40",type:"class",code:"Math",subject:"Mathematics",teacher:"MBS"},
+    {s:"11:40",e:"12:20",type:"lunch"},
+    {s:"12:20",e:"13:00",type:"class",code:"Phy",subject:"Physics",teacher:"AK"},
+    {s:"13:00",e:"14:20",type:"lab",code:"Chem",subject:"Chemistry Lab",teacher:"NR, SP, MN, NP"},
+    {s:"14:20",e:"14:30",type:"break"},
+    {s:"14:30",e:"15:10",type:"class",code:"Math",subject:"Mathematics",teacher:"PK"},
+    {s:"15:10",e:"15:50",type:"class",code:"Eng",subject:"English",teacher:"PL"},
+    {s:"15:50",e:"16:30",type:"classteacher"},
   ]},
   2: { label:"Tuesday", periods:[
-    {s:"09:30",e:"10:15",type:"class",code:"Eng",subject:"English",teacher:"PL"},
-    {s:"10:15",e:"11:00",type:"class",code:"Chem",subject:"Chemistry",teacher:"DLK"},
-    {s:"11:00",e:"11:10",type:"break"},
-    {s:"11:10",e:"11:55",type:"class",code:"Chem",subject:"Chemistry",teacher:"NKS"},
-    {s:"11:55",e:"12:40",type:"lunch"},
-    {s:"12:40",e:"13:20",type:"class",code:"Bot",subject:"Botany",teacher:"SM"},
-    {s:"13:20",e:"14:50",type:"lab",code:"Phy",subject:"Physics Lab",teacher:"KGT, AK, HKS, UA"},
-    {s:"14:50",e:"15:00",type:"break"},
-    {s:"15:00",e:"15:45",type:"class",code:"Nep",subject:"Nepali",teacher:"KP"},
-    {s:"15:45",e:"16:30",type:"class",code:"Math",subject:"Mathematics",teacher:"AMS"},
+    {s:"09:30",e:"10:10",type:"class",code:"Eng",subject:"English",teacher:"PL"},
+    {s:"10:10",e:"10:50",type:"class",code:"Chem",subject:"Chemistry",teacher:"DLK"},
+    {s:"10:50",e:"11:00",type:"break"},
+    {s:"11:00",e:"11:40",type:"class",code:"Chem",subject:"Chemistry",teacher:"NKS"},
+    {s:"11:40",e:"12:20",type:"lunch"},
+    {s:"12:20",e:"13:00",type:"class",code:"Bot",subject:"Botany",teacher:"SM"},
+    {s:"13:00",e:"14:20",type:"lab",code:"Phy",subject:"Physics Lab",teacher:"KGT, AK, HKS, UA"},
+    {s:"14:20",e:"14:30",type:"break"},
+    {s:"14:30",e:"15:10",type:"class",code:"Nep",subject:"Nepali",teacher:"KP"},
+    {s:"15:10",e:"15:50",type:"class",code:"Math",subject:"Mathematics",teacher:"AMS"},
+    {s:"15:50",e:"16:30",type:"class",code:"Zoo",subject:"Zoology",teacher:"AJ"},
   ]},
   3: { label:"Wednesday", periods:[
-    {s:"09:30",e:"10:15",type:"class",code:"Zoo",subject:"Zoology",teacher:"AJ"},
-    {s:"10:15",e:"11:00",type:"class",code:"Phy",subject:"Physics",teacher:"AK"},
-    {s:"11:00",e:"11:10",type:"break"},
-    {s:"11:10",e:"11:55",type:"class",code:"Bot",subject:"Botany",teacher:"BS"},
-    {s:"11:55",e:"12:40",type:"lunch"},
-    {s:"12:40",e:"13:20",type:"class",code:"Zoo",subject:"Zoology",teacher:"BP"},
-    {s:"13:20",e:"14:05",type:"class",code:"Chem",subject:"Chemistry",teacher:"DLK"},
-    {s:"14:05",e:"14:50",type:"class",code:"Eng",subject:"English",teacher:"PL"},
-    {s:"14:50",e:"15:00",type:"break"},
-    {s:"15:00",e:"15:45",type:"class",code:"Nep",subject:"Nepali",teacher:"DP"},
-    {s:"15:45",e:"16:30",type:"class",code:"Phy",subject:"Physics",teacher:"HKS"},
+    {s:"09:30",e:"10:10",type:"class",code:"Zoo",subject:"Zoology",teacher:"AJ"},
+    {s:"10:10",e:"10:50",type:"class",code:"Phy",subject:"Physics",teacher:"AK"},
+    {s:"10:50",e:"11:00",type:"break"},
+    {s:"11:00",e:"11:40",type:"class",code:"Bot",subject:"Botany",teacher:"BS"},
+    {s:"11:40",e:"12:20",type:"lunch"},
+    {s:"12:20",e:"13:00",type:"class",code:"Zoo",subject:"Zoology",teacher:"BP"},
+    {s:"13:00",e:"13:40",type:"class",code:"Chem",subject:"Chemistry",teacher:"DLK"},
+    {s:"13:40",e:"14:20",type:"class",code:"Eng",subject:"English",teacher:"PL"},
+    {s:"14:20",e:"14:30",type:"break"},
+    {s:"14:30",e:"15:10",type:"class",code:"Phy",subject:"Physics",teacher:"HKS"},
+    {s:"15:10",e:"15:50",type:"class",code:"Nep",subject:"Nepali",teacher:"DP"},
+    {s:"15:50",e:"16:30",type:"class",code:"Math",subject:"Mathematics",teacher:"PK"},
   ]},
   4: { label:"Thursday", periods:[
-    {s:"09:30",e:"10:15",type:"class",code:"Math",subject:"Mathematics",teacher:"PK"},
-    {s:"10:15",e:"11:00",type:"class",code:"Phy",subject:"Physics",teacher:"AK"},
-    {s:"11:00",e:"11:10",type:"break"},
-    {s:"11:10",e:"11:55",type:"class",code:"Chem",subject:"Chemistry",teacher:"NP"},
-    {s:"11:55",e:"12:40",type:"lunch"},
-    {s:"12:40",e:"13:20",type:"class",code:"Phy",subject:"Physics",teacher:"HKS"},
-    {s:"13:20",e:"14:05",type:"class",code:"Phy",subject:"Physics",teacher:"GJ"},
-    {s:"14:05",e:"14:50",type:"class",code:"Bot",subject:"Botany",teacher:"SM"},
-    {s:"14:50",e:"15:00",type:"break"},
-    {s:"15:00",e:"16:30",type:"lab",code:"Bio",subject:"Biology Lab",teacher:"NSD, SM, AJ, PT"},
+    {s:"09:30",e:"10:10",type:"class",code:"Math",subject:"Mathematics",teacher:"PK"},
+    {s:"10:10",e:"10:50",type:"class",code:"Phy",subject:"Physics",teacher:"AK"},
+    {s:"10:50",e:"11:00",type:"break"},
+    {s:"11:00",e:"11:40",type:"class",code:"Chem",subject:"Chemistry",teacher:"NP"},
+    {s:"11:40",e:"12:20",type:"lunch"},
+    {s:"12:20",e:"13:00",type:"class",code:"Phy",subject:"Physics",teacher:"HKS"},
+    {s:"13:00",e:"13:40",type:"class",code:"Phy",subject:"Physics",teacher:"GJ"},
+    {s:"13:40",e:"14:20",type:"class",code:"Bot",subject:"Botany",teacher:"SM"},
+    {s:"14:20",e:"14:30",type:"break"},
+    {s:"14:30",e:"15:50",type:"lab",code:"Bio",subject:"Biology Lab",teacher:"NSD, JT, AJ, BP"},
   ]},
   5: { label:"Friday", periods:[
     {s:"09:30",e:"10:15",type:"class",code:"Chem",subject:"Chemistry",teacher:"DLK"},
-    {s:"10:15",e:"11:00",type:"class",code:"Math",subject:"Mathematics",teacher:"DP"},
+    {s:"10:15",e:"11:00",type:"class",code:"Math",subject:"Mathematics",teacher:"AMS"},
     {s:"11:00",e:"11:10",type:"break"},
     {s:"11:10",e:"11:55",type:"class",code:"Phy",subject:"Physics",teacher:"HKS"},
     {s:"11:55",e:"12:40",type:"lunch"},
@@ -896,8 +882,8 @@ const WEEK = {
     {s:"13:20",e:"14:05",type:"class",code:"Math",subject:"Mathematics",teacher:"PK"},
     {s:"14:05",e:"14:50",type:"class",code:"Nep",subject:"Nepali",teacher:"DP"},
     {s:"14:50",e:"15:00",type:"break"},
-    {s:"15:00",e:"15:45",type:"class",code:"Zoo",subject:"Zoology",teacher:"GC"},
-    {s:"15:45",e:"16:30",type:"class",code:"Bot",subject:"Botany",teacher:"NSD"},
+    {s:"15:00",e:"15:45",type:"class",code:"Phy",subject:"Physics",teacher:"VKJ"},
+    {s:"15:45",e:"16:30",type:"lab",code:"Chem",subject:"Chemistry Lab",teacher:"NR, SP, NP, RR"},
   ]},
   6: { label:"Saturday", holiday:true, periods:[] },
 };
@@ -912,7 +898,26 @@ const DAYMETA = {
   6:{short:"Sat", accent:"var(--holiday)"},
 };
 
+/* Two distinct time grids exist across the week: Mon–Thu share one 40-min-period
+   structure; Friday's XII grid runs later, in 45-min periods with an extra short
+   break before the last lab. ROWTIMES below is the Mon–Thu grid; FRI_ROWTIMES is
+   Friday's own. buildWeekGrid() picks the wider of the two for its column count. */
 const ROWTIMES = [
+  {s:"09:30",e:"10:10"},
+  {s:"10:10",e:"10:50"},
+  {s:"10:50",e:"11:00"},
+  {s:"11:00",e:"11:40"},
+  {s:"11:40",e:"12:20"},
+  {s:"12:20",e:"13:00"},
+  {s:"13:00",e:"13:40"},
+  {s:"13:40",e:"14:20"},
+  {s:"14:20",e:"14:30"},
+  {s:"14:30",e:"15:10"},
+  {s:"15:10",e:"15:50"},
+  {s:"15:50",e:"16:30"},
+];
+
+const FRI_ROWTIMES = [
   {s:"09:30",e:"10:15"},
   {s:"10:15",e:"11:00"},
   {s:"11:00",e:"11:10"},
@@ -922,9 +927,10 @@ const ROWTIMES = [
   {s:"13:20",e:"14:05"},
   {s:"14:05",e:"14:50"},
   {s:"14:50",e:"15:00"},
-  {s:"15:00",e:"15:45"},
-  {s:"15:45",e:"16:30"},
+  {s:"15:00",e:"15:40"},
+  {s:"15:40",e:"16:20"},
 ];
+const WEEKGRID_COLS = Math.max(ROWTIMES.length, FRI_ROWTIMES.length);
 
 const ACCENT = {
   Eng:"var(--eng)", Nep:"var(--nep)", Math:"var(--math)", Phy:"var(--phy)",
@@ -941,7 +947,7 @@ const ICON = {
   study: `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6a2 2 0 0 1 2-2h6v16H4a2 2 0 0 0-2 2z"/><path d="M22 6a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 1 2 2z"/></svg>`,
   holiday: `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`,
 };
-const LABEL = { break:"Short Break", lunch:"Lunch Break", study:"Study Hour" };
+const LABEL = { break:"Short Break", lunch:"Lunch Break", study:"Study Hour", classteacher:"Class Teacher" };
 
 /* ============ helpers ============ */
 function pad(n){ return n.toString().padStart(2,"0"); }
@@ -963,9 +969,10 @@ function minsToText(mins){
   if (h > 0) return `${h}h ${m}m`;
   return `${m}m`;
 }
-function colRange(p){
-  const s = ROWTIMES.findIndex(r => r.s === p.s);
-  const e = ROWTIMES.findIndex(r => r.e === p.e);
+function colRange(p, grid){
+  const rows = grid || ROWTIMES;
+  const s = rows.findIndex(r => r.s === p.s);
+  const e = rows.findIndex(r => r.e === p.e);
   return { col: s + 2, span: (e - s) + 1 };
 }
 function teacherKey(code, teacher){
@@ -1052,7 +1059,6 @@ function applyTeacherFilter(){
     if (daysWithMatch.has(d)) h.classList.remove("wg-dim"); else h.classList.add("wg-dim");
   });
 
-  // keep the ticket / chip that triggered this in sync visually
   document.querySelectorAll(".tname, .tchip").forEach(el => {
     el.classList.toggle("is-active", el.dataset.key === filterTeacher);
   });
@@ -1213,30 +1219,9 @@ function render(){
   const legend = document.getElementById("legend");
   const progressTrack = document.getElementById("progressTrack");
 
-  /* ---------- COMPARE-SECTIONS INLINE REPLACE ---------- */
   const todayPanelTitle = document.getElementById("todayPanelTitle");
   const todayPanelSub = document.getElementById("todayPanelSub");
   const cmpInlineBannerEl = document.getElementById("cmpInlineBanner");
-  const showCmpInline = typeof cmpGroups !== "undefined" && cmpGroups.size === 1 && cmpMode === "inline";
-
-  if (showCmpInline){
-    const g = Array.from(cmpGroups)[0];
-    if (cmpInlineBannerEl){
-      cmpInlineBannerEl.innerHTML = `
-        <div class="cmp-inline-banner">
-          <div class="txt">Viewing <strong>${g}</strong>'s routine for ${cmpDay} instead of yours.</div>
-          <div class="cmp-inline-actions">
-            <button class="cmp-btn" onclick="cmpOpenPanel()">Open as separate panel instead</button>
-            <button class="cmp-btn primary" onclick="cmpClear()">Back to my routine</button>
-          </div>
-        </div>`;
-    }
-    if (todayPanelTitle) todayPanelTitle.textContent = `${g} &middot; ${cmpDay}`;
-    if (todayPanelSub) todayPanelSub.textContent = `Comparison view. This isn't your own routine.`;
-    renderInlineCompare(g);
-    buildWeekGrid();
-    return;
-  }
   if (cmpInlineBannerEl) cmpInlineBannerEl.innerHTML = "";
   if (todayPanelTitle) todayPanelTitle.textContent = isActualToday ? "Today's Routine" : `${today.label}'s Routine`;
   if (todayPanelSub) todayPanelSub.textContent = `${today.label} &middot; Grade XII 'D'`;
@@ -1350,7 +1335,7 @@ function render(){
           </div>
         </div>`;
     } else {
-      const accent = p.type === "study" ? "var(--study)" : "var(--brk)";
+      const accent = p.type === "study" ? "var(--study)" : (p.type === "classteacher" ? "var(--holiday)" : "var(--brk)");
       const label = LABEL[p.type];
       let statusHtml = "";
       if (isNow){
@@ -1384,23 +1369,26 @@ function render(){
   if (periods.some(p=>p.type==="break")) legendHtml += `<span class="item"><span class="sw" style="background:var(--brk)"></span>Break</span>`;
   if (periods.some(p=>p.type==="lunch")) legendHtml += `<span class="item"><span class="sw" style="background:var(--brk)"></span>Lunch</span>`;
   if (periods.some(p=>p.type==="study")) legendHtml += `<span class="item"><span class="sw" style="background:var(--study)"></span>Study Hour</span>`;
+  if (periods.some(p=>p.type==="classteacher")) legendHtml += `<span class="item"><span class="sw" style="background:var(--holiday)"></span>Class Teacher</span>`;
   legend.innerHTML = legendHtml;
 
   buildWeekGrid();
 }
 
 /* ============ full-week aesthetic grid (transposed: days as rows, periods as columns) ============ */
+function gridForDay(d){ return d === 5 ? FRI_ROWTIMES : ROWTIMES; }
+
 function buildWeekGrid(){
   const grid = document.getElementById("weekGrid");
   let html = `<div class="wg-corner"></div>`;
 
-  // time headers (top row)
+  // Header shows the Mon–Thu grid; Friday's own times still render correctly in its row
+  // because each cell is positioned by its own start/end against FRI_ROWTIMES.
   ROWTIMES.forEach((r, i) => {
-    const isBreak = i === 2 || i === 8;
+    const isBreak = i === 2;
     html += `<div class="wg-timelabel ${isBreak?'is-break':''}" style="grid-column:${i+2};grid-row:1">${fmt12(r.s)}&ndash;${fmt12(r.e)}</div>`;
   });
 
-  // day headers (left column)
   Object.keys(WEEK).forEach(k => {
     const d = Number(k);
     const meta = WEEK[d];
@@ -1408,43 +1396,36 @@ function buildWeekGrid(){
     const cls = ["wg-head"];
     if (d === actualToday) cls.push("is-today");
     if (d === selectedDay) cls.push("is-selected");
-    const tag = meta.holiday ? "Off" : (meta.note ? "Online" : "");
+    const tag = meta.holiday ? "Off" : "";
     html += `<div class="${cls.join(' ')}" style="grid-column:1;grid-row:${d+2};--hcol:${accent}" onclick="jumpTo(${d})">
       <div class="wgh-day">${DAYMETA[d].short}</div>
       ${tag ? `<div class="wgh-tag">${tag}</div>` : ""}
     </div>`;
   });
 
-  // day rows
   Object.keys(WEEK).forEach(k => {
     const d = Number(k);
     const meta = WEEK[d];
     const rowStyle = d === actualToday ? ` wg-row-today` : "";
+    const dayGrid = gridForDay(d);
 
     if (meta.holiday || meta.periods.length === 0){
-      if (meta.holiday){
-        html += `<div class="wg-cell wg-holiday${rowStyle}" style="grid-row:${d+2};grid-column:2 / span 11">Holiday</div>`;
-      } else {
-        // e.g. Sunday: fill mapped periods, then filler for the rest
-        meta.periods.forEach(p => {
-          const {col, span} = colRange(p);
-          html += renderWgCell(p, d, col, span, rowStyle);
-        });
-        const lastP = meta.periods[meta.periods.length-1];
-        const lastCol = colRange(lastP);
-        const usedThrough = lastCol.col + lastCol.span; // next free column
-        const remaining = 13 - usedThrough; // columns go 2..12
-        if (remaining > 0){
-          html += `<div class="wg-cell wg-filler${rowStyle}" style="grid-row:${d+2};grid-column:${usedThrough} / span ${remaining}">Free</div>`;
-        }
-      }
+      html += `<div class="wg-cell wg-holiday${rowStyle}" style="grid-row:${d+2};grid-column:2 / span ${WEEKGRID_COLS}">Holiday</div>`;
       return;
     }
 
     meta.periods.forEach(p => {
-      const {col, span} = colRange(p);
+      const {col, span} = colRange(p, dayGrid);
       html += renderWgCell(p, d, col, span, rowStyle);
     });
+
+    const lastP = meta.periods[meta.periods.length-1];
+    const lastCol = colRange(lastP, dayGrid);
+    const usedThrough = lastCol.col + lastCol.span;
+    const remaining = (WEEKGRID_COLS + 2) - usedThrough;
+    if (remaining > 0){
+      html += `<div class="wg-cell wg-filler${rowStyle}" style="grid-row:${d+2};grid-column:${usedThrough} / span ${remaining}">Free</div>`;
+    }
   });
 
   grid.innerHTML = html;
@@ -1462,6 +1443,9 @@ function renderWgCell(p, d, col, span, rowStyle){
   if (p.type === "study"){
     return `<div class="wg-cell wg-study${rowStyle}" style="${gridStyle}--ccol:var(--study)"><span class="wc-code">Study</span></div>`;
   }
+  if (p.type === "classteacher"){
+    return `<div class="wg-cell wg-study${rowStyle}" style="${gridStyle}--ccol:var(--holiday)"><span class="wc-code">Class T.</span></div>`;
+  }
   const accent = ACCENT[p.code];
   const teacherLabel = p.teacher.includes(',') ? p.teacher.split(',').length + ' teachers' : p.teacher;
   const keys = p.teacher.split(',').map(t => teacherKey(p.code, t)).join(',');
@@ -1478,308 +1462,6 @@ function wgCellClick(el){
   toggleTeacherFilter(k);
 }
 
-/* ============================================================
-   COMPARE OTHER SECTIONS
-   Raw data transcribed from the posted master timetable, parsed
-   generically so every section/day combination stays in sync
-   with the source table.
-   ============================================================ */
-const RAW_MD = `
-### **Monday**
-
-| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 | 12:40-01:15 | 01:20-02:05 | 02:05-02:50 | 03:00-03:45 | 03:45-04:30 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **XI A** | Maths DP | Bot NSD | Maths DPA | Lunch Break | Chem DP | Zoo BP | BOT JT | Maths RBY | Chem MN |
-| **XI B** | Maths RBY | Zoo PT | Bot NSD | Maths DP | Lunch Break | Chem RR | Bot NSD | Chem SP | Eng BP |
-| **XI C** | Zoo AJ | ZOO YB | Chem DLK | Bot BS | Lunch Break | Phy UA | Nep DP | Maths DP | BIO(NSD+BS+BP+AJ) |
-| **XI D** | Maths PK | BOT JT | Zoo AJ | Phy RT | Lunch Break | Phy AK | Zoo BP | Chem NP | Eng NB |
-| **XI E** | Nep DP | Eng NB | Bot SM | Phy | Lunch Break | Nep KP | Phy YP | Phy KGT | Chem NP |
-| **XI F** | Maths AMS | Phy HB | Zoo PT | Maths AMS | Lunch Break | Maths RBY | Phy GJ | BIO(JT+SM+PT+AJ) | Phy NB |
-| **XI G** | Eng PL | Comp JS | PHY(YP+HKS+BP+HB) | Lunch Break | Comp MP | Bot BS | Phy KGT | Maths AMS | Nep JA |
-| **XI H** | PHY(UA+AK+KPA+RT) | Maths AMS | Chem RR | Lunch Break | Chem DLK | Chem KS | Maths DPA | Nep AC | Comp JM |
-| **XII I** | Comp JS | Phy HKS | Nep AC | Eng PL | Lunch Break | Maths PK | COMP(JM+JS+SM) | Maths AMS | PHY(YP+AK+BP+HKS) |
-| **XII A** | CHEM(SP+DA+RR+DP) | Chem NP | Lunch Break | Chem DP | Eng NB | Phy HB | BOT JT | Free | Free |
-| **XII B** | Bot BS | Nep DP | Eng NB | Lunch Break | Chem NR | Maths RBY | Maths DP | Chem SP | Free |
-| **XII C** | Chem NR | Maths RBY | BOT JT | Lunch Break | Chem RR | Zoo BP | Chem MB | Maths DP | Free |
-| **XII D** | Chem NP | Nep KP | Maths DP | Lunch Break | Phy UA | CHEM(NR+SP+MN+NP) | Maths PK | Eng PL | Free |
-| **XII E** | Phy BP | Bot SM | Chem DA | Lunch Break | Phy AK | Maths DP | Phy GJ | ZOO GC | Maths PK |
-| **XII F** | Zoo BP | Chem NKS | Chem MN | Lunch Break | Nep KP | Chem KS | Bot BS | Phy GJ | Maths AMS |
-| **XII G** | Nep AC | Eng BP | Chem SP | Lunch Break | Maths RBY | Maths PK | Chem KS | CHEM(DA+DP+RR+DLK) | Free |
-| **XII H** | Eng BP | Chem MN | Chem NKS | Lunch Break | Comp MP | COMP(JM+JS+SM) | Nep KP | Maths RBY | Free |
-| **XII I** | Chem NKS | Chem NR | Maths PK | Lunch Break | Chem DLK | Phy AK | Eng PL | Nep PL | Phy UA |
-
-### **Tuesday**
-
-| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 | 12:40-01:15 | 01:20-02:05 | 02:05-02:50 | 03:00-03:45 | 03:45-04:30 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **XI A** | Chem NR | ZOO YB | ZOO AJ | Lunch Break | Phy YP | Maths DP | Chem NP | Maths DP | Eng NB |
-| **XI B** | Maths DP | Nep KP | Maths DP | Lunch Break | CHEM(NR+DLK+SP+DA) | Phy DP | ZOO GC | Chem MB | Eng BP |
-| **XI C** | Phy UA | Nep DP | Zoo PT | Lunch Break | Maths DP | Zoo PT | BIO(NSD+BS+AJ+BP) | Nep KP | Maths AMS |
-| **XI D** | Maths RBY | Eng NB | Bot NSD | Lunch Break | Bot BS | Chem MB | PHY(KGT+AK+HKS+UA) | BIO(BS+SM+PT+AJ) | Free |
-| **XI E** | CHEM(DP+NP+MN+RR) | Nep AC | Lunch Break | Zoo BP | Nep AC | Eng LMJ | Nep DP | Free | Free |
-| **XI F** | Nep KP | Eng BP | Chem MN | Lunch Break | Bot JT | Bot SM | Phy HB | Chem KS | Nep DP |
-| **XI G** | Nep AC | Chem DA | Maths DPA | Lunch Break | Chem DP | Maths DPA | Comp MP | Phy DP | Chem DLK |
-| **XI H** | Maths AMS | Phy AK | Chem NP | Lunch Break | Comp JM | Value Edu PSB | Phy BP | Maths AMS | Maths RBY |
-| **XI I** | Eng NB | Maths AMS | Comp JS | Lunch Break | Phy HKS | CHEM(DP+RR+DA+MN) | Chem DA | Free | Free |
-| **XII A** | BIO(JT+BS+PT+BP) | Maths RBY | Lunch Break | Phy GJ | Chem DP | Eng NB | Free | Free | Free |
-| **XII B** | Chem SP | Chem NKS | Phy HKS | Lunch Break | Maths AMS | Phy DP | Zoo GC | Eng BP | Free |
-| **XII C** | Chem MN | Chem NR | Phy KPA | Lunch Break | Maths RBY | BIO(NSD+BS+AJ+BP) | Chem MB | Eng BP | Free |
-| **XII D** | Eng PL | Chem DLK | Chem NKS | Lunch Break | Bot SM | PHY(KGT+AK+HKS+UA) | Nep KP | Maths AMS | Free |
-| **XII E** | Bot SM | Maths PK | Phy BP | Lunch Break | Chem RR | Eng LMJ | Nep DP | BIO(BS+SM+PT+AJ) | Free |
-| **XII F** | PHY(YP+KPA+BP+HB) | Eng PL | Lunch Break | Chem MN | Phy HB | Chem KS | Nep DP | Free | Free |
-| **XII G** | Eng BP | Chem SP | Maths AMS | Lunch Break | Maths PK | Comp MP | Phy DP | Chem DLK | Free |
-| **XII H** | Phy HKS | Comp JS | Nep DP | Lunch Break | Eng BP | Phy BP | Maths AMS | Maths RBY | Free |
-
-### **Wednesday**
-
-| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 | 12:40-01:15 | 01:20-02:05 | 02:05-02:50 | 03:00-03:45 | 03:45-04:30 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **XI A** | Maths PK | Phy UA | Maths DP | Lunch Break | Nep DP | Comp JM | Nep DP | Chem NR | COMP(JM+MP+JS) |
-| **XI B** | Chem MN | Nep AC | Maths DP | Lunch Break | Chem SP | Lunch Break | BIO(NSD+SM+PT+AJ) | Phy AK | Free |
-| **XI C** | Maths DP | Bot SM | Chem NR | Lunch Break | Phy BP | Lunch Break | Phy UA | Chem SP | Free |
-| **XI D** | PHY(HKS+GJ+UA+RT) | Zoo AJ | Lunch Break | Maths DPA | Lunch Break | Maths PK | Maths RBY | Free | Free |
-| **XI E** | Phy HB | Chem SP | PHY(UA+YP+AK+KPA) | Lunch Break | Eng NB | Lunch Break | Chem RR | BIO(JT+SM+BP+PT) | Free |
-| **XI F** | Maths AMS | Bot JT | Phy RT | Lunch Break | PHY(HKS+YP+HB+RT) | Lunch Break | Chem DP | PHY(VKJ+BP+YP+KPA) | Free |
-| **XI G** | Bot SM | Chem DA | Maths AMS | Lunch Break | Maths PK | Lunch Break | Maths PK | Eng BP | Free |
-| **XI H** | Nep AC | Maths PK | Chem DP | Lunch Break | COMP(JM+JS+SM) | Lunch Break | Phy VKJ | Chem NP | Maths AMS |
-| **XII I** | Eng NB | Phy KPA | Eng NB | Lunch Break | Phy VKJ | Lunch Break | Chem DA | Value Edu PSB | Nep AC |
-| **XII A** | Zoo PT | Chem NKS | Bot NSD | Lunch Break | Phy HB | Nep DP | Bot JT | Maths RBY | Eng NB |
-| **XII B** | Maths RBY | Zoo PT | Chem SP | Lunch Break | Chem RR | Bot JT | Phy DP | Phy GJ | Phy HKS |
-| **XII C** | CHEM(NR+DLK+NP+DP) | Eng BP | Lunch Break | Phy KPA | Maths AMS | ZOO GC | Nep KP | Phy UA | Free |
-| **XII D** | Zoo AJ | Phy AK | Bot BS | Lunch Break | Zoo BP | Chem DLK | Eng PL | Nep DP | PHY HKS |
-| **XII E** | Chem NKS | Phy BP | Zoo PT | Lunch Break | Maths DP | Eng LMJ | Phy VKJ | Bot BS | Maths PK |
-| **XII F** | Nep KP | Bot NSD | Chem MN | Lunch Break | Maths RBY | CHEM(NR+MN+NP+SP) | ZOO AJ | Nep DP | Free |
-| **XII G** | Eng BP | Phy YP | Maths RBY | Lunch Break | Nep KP | Phy DP | Study Hour | Comp MP | Maths DP |
-| **XII H** | Phy BP | Comp JS | Chem DA | Lunch Break | Phy GJ | Maths DP | Study Hour | Maths AMS | CHEM(DA+RR+MN+DP) |
-| **XIII I** | Eng PL | Nep DP | Chem SP | Lunch Break | Comp JM | Phy AK | Study Hour | CHEM(NR+MN+DLK+DA) | Free |
-
-### **Thursday**
-
-| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 | 12:40-01:15 | 01:20-02:05 | 02:05-02:50 | 03:00-03:45 | 03:45-04:30 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **XI A** | Chem DP | Nep AC | Bot BS | Lunch Break | ZOO AJ | Maths DP | Bot BS | Eng BP | Maths PK |
-| **XI B** | Nep AC | Phy RT | Phy KPA | Lunch Break | Eng PL | Phy BP | Eng BP | Eng NB | Maths DP |
-| **XI C** | Phy RT | Chem NKS | Chem NKS | Lunch Break | Phy BP | Chem DLK | Nep AC | Chem NP | Nep AC |
-| **XI D** | CHEM(DLK+SP+DA+NP) | Bot NSD | Lunch Break | Chem DLK | Bot NSD | Value Edu PSB | Chem DP | Free | Free |
-| **XI E** | Phy BP | Phy RT | Zoo BP | Lunch Break | Bot JT | Zoo BP | Phy KPA | Maths AMS | Free |
-| **XI F** | Chem NKS | Bot JT | Nep KP | Lunch Break | Zoo BP | CHEM(NR+RR+DP+SP) | ZOO YB | Eng PL | Free |
-| **XI G** | Chem DP | Chem MN | CHEM(DP+NP+MN+RR) | Lunch Break | Comp JM | Phy YP | Phy RT | Value Edu Fr. Ajay | Maths AMS |
-| **XI H** | Maths AMS | Comp JS | Phy YP | Lunch Break | Phy YP | Comp JS | CHEM(NP+NR+MN+DLK) | Phy AK | Free |
-| **XII I** | Nep DP | Eng NB | Comp JS | Lunch Break | Comp JS | Chem NKS | Phy KPA | Chem DP | Nep JA |
-| **XII A** | Maths DP | Nep KP | Zoo PT | Lunch Break | Eng NB | Maths RBY | PHY(KPA+YP+UA+HB) | Free | Free |
-| **XII B** | Eng NB | Zoo FT | Maths RBY | Lunch Break | Chem RR | Phy HKS | Phy DP | Nep KP | Free |
-| **XII C** | Maths RBY | Chem NR | Zoo AJ | Lunch Break | Maths DP | Bot NSD | BIO(JT+BS+AJ+PT) | Eng BP | Free |
-| **XII D** | Maths PK | Phy AK | Chem NP | Lunch Break | Phy HKS | Phy GJ | Phy VKJ | Phy DP | Free |
-| **XII E** | PHY(HKS+KPA+GJ+HB) | Maths AMS | Lunch Break | Chem DA | Eng LMJ | ZOO GC | Chem RR | Maths RBY | Free |
-| **XII F** | BIO(NSD+SM+AJ+BP) | Maths PK | Lunch Break | Phy HB | BOT SM | Eng PL | Maths PK | Phy DP | Free |
-| **XII G** | Phy YP | Eng BP | Phy GJ | Lunch Break | Chem SP | Comp(JM+JS+MP) | Maths PK | Phy HKS | Comp JS |
-| **XII H** | Chem MN | Phy BP | Nep DP | Lunch Break | Maths PK | PHY(DP+UA+YP+BP) | Nep KP | Phy AK | Comp JM |
-| **XIII I** | Phy UA | Maths AMS | Eng PL | Lunch Break | Nep KP | Chem DA | Nep KP | Free | Free |
-
-### **Friday**
-
-| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 | 12:40-01:15 | 01:20-02:05 | 02:05-02:50 | 03:00-03:45 | 03:45-04:30 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **XI A** | ZOO AJ | Zoo PT | Chem MN | Phy YP | Lunch Break | Nep KP | BOT JT | Eng PL | Phy GJ |
-| **XI B** | Phy KPA | Bot PSB | PHY(AK+BP+GJ+KPA) | Lunch Break | Chem SP | Chem NR | BIO(SM+JT+BP+PT) | Free | Free |
-| **XI C** | Eng BP | Bot SM | Bot BS | Chem NKS | Lunch Break | Phy VKJ | Phy UA | Nep JA | Maths DP |
-| **XI D** | Eng NB | Phy AK | Phy HB | Chem SP | Lunch Break | ZOO YB | Value Edu Fr. Ajay | Zoo AJ | Chem DLK |
-| **XI E** | Chem RR | Nep AC | Eng NB | Maths RBY | Lunch Break | BIO(NSD+BS+PT+BP) | Maths AMS | Phy KPA | Free |
-| **XI F** | Chem NKS | Eng BP | CHEM(DLK+DP+DA+RR) | Lunch Break | Phy KGT | Value Edu PSB | Nep AC | Maths AMS | Free |
-| **XI G** | Eng PL | Chem DA | Chem NKS | Phy UA | Lunch Break | Maths AMS | Phy KGT | Comp JS | Nep JA |
-| **XI H** | Phy BP | Chem NKS | Comp JM | Maths AMS | Lunch Break | Nep AC | Chem NP | Eng NB | Phy YP |
-| **XII I** | Chem DA | Phy KPA | Maths AMS | Eng PL | Lunch Break | COMP(JM+JS+SM) | Maths PK | Chem DP | Free |
-| **XII A** | Maths AMS | Chem DP | Maths RBY | Lunch Break | Phy HB | Phy HKS | ZOO GC | Bot BS | Nep DP |
-| **XII B** | CHEM(MN+NR+SP+NP) | Zoo BP | Lunch Break | Maths DP | Maths RBY | Eng NB | Nep KP | Phy HKS | Free |
-| **XII C** | PHY(HKS+YP+UA+HB) | Nep KP | Lunch Break | Bot JT | Phy UA | Zoo AJ | Eng BP | Maths RBY | Free |
-| **XII D** | Chem DLK | Maths DP | Phy HKS | Lunch Break | Chem RR | Maths PK | Nep DP | ZOO GC | Bot NSD |
-| **XII E** | Maths PK | Nep DP | Bot NSD | Lunch Break | Chem RR | Eng LMJ | Phy VKJ | CHEM(NR+SP+NP+RR) | Free |
-| **XII F** | BOT SM | Zoo AJ | Nep DP | Lunch Break | Phy YP | Maths DP | Chem KS | Maths RBY | Eng PL |
-| **XII G** | Maths DP | Maths PK | Nep AC | Lunch Break | Comp MP | Chem KS | Phy YP | PHY(HB+UA+BP+AK) | Free |
-| **XII H** | Maths RBY | Chem DLK | Comp JS | Lunch Break | Chem MN | CHEM(DA+MN+DLK+DP) | Phy HKS | Eng BP | Free |
-| **XII I** | Phy GJ | Comp JM | Eng PL | Lunch Break | Chem NR | PHY(BP+AK+GJ+HB) | Maths DP | Maths PK | Free |
-
-### **Sunday**
-
-| Group | 09:30-10:15 | 10:15-11:00 | 11:10-11:55 | 11:55-12:40 |
-| :--- | :--- | :--- | :--- | :--- |
-| **XII A** | Nep KP | Phy HKS | Chem NP | Study Hour |
-| **XII B** | Eng NB | Nep DP | BOT JT | Study Hour |
-| **XII C** | Phy KPA | Bot BS | Chem MB | Study Hour |
-| **XII D** | Eng PL | Zoo AJ | Maths PK | Study Hour |
-| **XII E** | Chem DA | Zoo PT | Nep KP | Study Hour |
-| **XII F** | Phy HB | Eng PL | Phy YP | Study Hour |
-`;
-
-function parseCompareData(md){
-  const data = {};
-  let currentDay = null;
-  md.split("\n").forEach(rawLine => {
-    const line = rawLine.trim();
-    const dayMatch = line.match(/^###\s+\*\*(.+?)\*\*$/);
-    if (dayMatch){
-      currentDay = dayMatch[1].trim();
-      data[currentDay] = { times: [], groups: {} };
-      return;
-    }
-    if (!currentDay || !line.startsWith("|")) return;
-    let cells = line.split("|").map(c => c.trim());
-    if (cells[0] === "") cells.shift();
-    if (cells[cells.length - 1] === "") cells.pop();
-    if (cells.length === 0) return;
-    if (cells[0] === "Group"){ data[currentDay].times = cells.slice(1); return; }
-    if (/^:?-+:?$/.test(cells[0])) return;
-    if (cells[0].startsWith("**")){
-      const groupName = cells[0].replace(/\*\*/g, "").trim();
-      data[currentDay].groups[groupName] = cells.slice(1);
-    }
-  });
-  return data;
-}
-
-const COMPARE = parseCompareData(RAW_MD);
-const COMPARE_DAYS = Object.keys(COMPARE);
-
-const CMP_ACCENT_MAP = [
-  [/^maths?/i, "var(--math)"],
-  [/^chem/i, "var(--chem)"],
-  [/^phy/i, "var(--phy)"],
-  [/^bot/i, "var(--bot)"],
-  [/^zoo/i, "var(--zoo)"],
-  [/^bio/i, "var(--bio)"],
-  [/^nep/i, "var(--nep)"],
-  [/^eng/i, "var(--eng)"],
-  [/^comp/i, "var(--online)"],
-  [/^value/i, "var(--study)"],
-];
-function cmpCellAccent(text){
-  for (const [re, color] of CMP_ACCENT_MAP){ if (re.test(text)) return color; }
-  return "var(--holiday)";
-}
-function isMutedCell(text){
-  return /^lunch break$/i.test(text) || /^study hour$/i.test(text) || text === "-" || text === "" || /^free/i.test(text);
-}
-
-let cmpDay = COMPARE_DAYS[0];
-let cmpGroups = new Set();
-let cmpMode = "inline";
-let cmpView = "grid";
-
-function cmpSetDay(d){ cmpDay = d; buildComparePanel(); render(); }
-function cmpToggleGroup(g){
-  if (cmpGroups.has(g)) cmpGroups.delete(g); else cmpGroups.add(g);
-  buildComparePanel(); render();
-}
-function cmpSetView(v){ cmpView = v; buildComparePanel(); }
-function cmpClear(){ cmpGroups.clear(); cmpMode = "inline"; buildComparePanel(); render(); }
-function cmpOpenPanel(){
-  cmpMode = "panel";
-  document.getElementById("comparePanel").setAttribute("data-open","true");
-  buildComparePanel(); render();
-}
-
-function buildComparePanel(){
-  const el = document.getElementById("comparePanelBody");
-  if (!el) return;
-
-  const dayBtns = COMPARE_DAYS.map(d => `<button class="cmp-daybtn ${d===cmpDay?'is-active':''}" onclick="cmpSetDay('${d}')">${d}</button>`).join("");
-  const groupsForDay = COMPARE[cmpDay] ? Object.keys(COMPARE[cmpDay].groups) : [];
-  const groupChips = groupsForDay.map(g => `<span class="cmp-groupchip ${cmpGroups.has(g)?'is-active':''}" onclick="cmpToggleGroup('${g}')">${g}</span>`).join("");
-
-  el.innerHTML = `
-    <p style="color:var(--chalk-dim);font-size:13px;margin:0 0 14px;line-height:1.5;">
-      Pick a day and one or more sections to see their routine here. Choosing exactly one section
-      replaces your own routine above by default. Use "Open as separate panel instead" up there,
-      or pick more than one section, to keep your own routine untouched and see the comparison here instead.
-    </p>
-    <div class="cmp-label">Day</div>
-    <div class="cmp-row">${dayBtns}</div>
-    <div class="cmp-label">Section${groupsForDay.length ? "" : " (none found for this day)"}</div>
-    <div class="cmp-groups">${groupChips}</div>
-    <div class="cmp-toolbar">
-      <div class="cmp-view-toggle">
-        <button class="${cmpView==='grid'?'is-active':''}" onclick="cmpSetView('grid')">Grid</button>
-        <button class="${cmpView==='list'?'is-active':''}" onclick="cmpSetView('list')">List</button>
-      </div>
-      ${cmpGroups.size ? `<button class="cmp-clear" onclick="cmpClear()">Stop comparing</button>` : ""}
-    </div>
-    <div class="cmp-results" id="cmpResults"></div>
-  `;
-  renderCmpResults();
-}
-
-function cmpRenderCell(raw){
-  const text = (raw || "-").trim() || "-";
-  if (isMutedCell(text)){
-    return `<td><span class="cmp-cell cmp-muted">${/^free/i.test(text) || text === "-" ? "Free" : text}</span></td>`;
-  }
-  return `<td><span class="cmp-cell" style="--cc:${cmpCellAccent(text)}">${text}</span></td>`;
-}
-function cmpCellText(text){
-  text = (text || "-").trim() || "-";
-  return (/^free/i.test(text) || text === "-") ? "Free" : text;
-}
-
-function renderCmpResults(){
-  const el = document.getElementById("cmpResults");
-  if (!el) return;
-  if (cmpGroups.size === 0){
-    el.innerHTML = `<p class="cmp-empty">Select at least one section above to see its schedule.</p>`;
-    return;
-  }
-  const dayData = COMPARE[cmpDay];
-  if (!dayData){ el.innerHTML = `<p class="cmp-empty">No data found for ${cmpDay}.</p>`; return; }
-
-  const groupsArr = Array.from(cmpGroups);
-
-  if (cmpView === "grid"){
-    const times = dayData.times;
-    const rows = times.map((t, ti) => {
-      const cells = groupsArr.map(g => cmpRenderCell(dayData.groups[g] ? dayData.groups[g][ti] : "-")).join("");
-      return `<tr><td class="cmp-time">${t}</td>${cells}</tr>`;
-    }).join("");
-    const headCells = groupsArr.map(g => `<th>${g}</th>`).join("");
-    el.innerHTML = `<div style="overflow-x:auto;"><table class="cmp-table"><thead><tr><th>Time</th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
-  } else {
-    el.innerHTML = groupsArr.map(g => {
-      const cells = dayData.groups[g] || [];
-      const rows = dayData.times.map((t, ti) => `<div class="cmp-list-row"><span class="cmp-time">${t}</span><span>${cmpCellText(cells[ti])}</span></div>`).join("");
-      return `<div class="cmp-list-card"><h3>${g} &middot; ${cmpDay}</h3>${rows}</div>`;
-    }).join("");
-  }
-}
-
-function renderInlineCompare(group){
-  document.getElementById("glance").innerHTML = "";
-  document.getElementById("banner").classList.remove("show");
-  document.getElementById("progressTrack").innerHTML = "";
-  document.getElementById("legend").innerHTML = "";
-  document.getElementById("scheduleZone").querySelectorAll(".hero-card").forEach(n => n.remove());
-
-  const dayData = COMPARE[cmpDay];
-  const times = dayData ? dayData.times : [];
-  const cells = dayData && dayData.groups[group] ? dayData.groups[group] : [];
-
-  document.getElementById("tickets").innerHTML = times.map((t, i) => {
-    const raw = (cells[i] || "-").trim() || "-";
-    const muted = isMutedCell(raw);
-    const accent = muted ? "var(--brk)" : cmpCellAccent(raw);
-    const parts = t.split("-");
-    const code = muted ? "" : (raw.split(/[\s(]/)[0] || "").slice(0, 6);
-    const label = muted ? (/^free/i.test(raw) || raw === "-" ? "Free Period" : raw) : raw;
-    return `
-      <div class="ticket compact is-plain" style="--accent:${accent}">
-        <div class="stub"><span class="start">${fmt12(parts[0])}</span><span class="end">${parts[1] ? fmt12(parts[1]) : ""}</span></div>
-        <div class="perf"></div>
-        <div class="body">
-          <div class="badge">${muted ? ICON.break : code}</div>
-          <div class="info"><h3>${label}</h3></div>
-        </div>
-      </div>`;
-  }).join("");
-}
-
-buildComparePanel();
 render();
 buildTeacherDirectory();
 setInterval(render, 1000);
